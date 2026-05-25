@@ -10,6 +10,7 @@ export const dmSerif = DM_Serif_Display({
   subsets: ['latin'],
   variable: '--font-heading',
   weight: '400',
+  style: ['normal', 'italic'],
 })
 
 export const fontClass = cn(`${dmSans.variable}  ${dmSerif.variable} font-sans antialiased`)

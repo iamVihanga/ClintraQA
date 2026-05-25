@@ -1,14 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import type { Header, Media } from '@/payload-types'
 
 import { Logo } from '@/components/Logo'
 import { CMSLink } from '@/components/Link'
-import { Button } from '@/components/ui/button'
 
 interface HeaderClientProps {
   data: Header
@@ -17,25 +15,32 @@ interface HeaderClientProps {
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, logo, siteName }) => {
-  const pathname = usePathname()
   const navItems = data?.navigationLinks || []
 
   return (
-    <header className="w-full relative z-20">
-      <div className="py-4 flex justify-between container mx-auto">
-        <Link href="/">
+    <header className="sticky top-0 z-50 border-b border-warm-gray-200 bg-white/95 backdrop-blur-sm">
+      <div
+        className="mx-auto flex h-16 items-center justify-between px-6"
+        style={{ maxWidth: '1160px' }}
+      >
+        <Link href="/" className="shrink-0">
           <Logo resource={logo} siteName={siteName} loading="eager" priority={true} />
         </Link>
 
-        {/* Navigation */}
-        <nav className="flex gap-3 items-center justify-center">
-          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-          {navItems.map(({ link }, i) => {
-            return <CMSLink key={i} {...link} appearance="link" />
-          })}
+        <nav className="flex items-center gap-8">
+          {navItems.map(({ link }, i) => (
+            <CMSLink
+              key={i}
+              {...link}
+              appearance="inline"
+              className="text-sm font-medium text-warm-gray-600 transition-colors hover:text-navy"
+            />
+          ))}
         </nav>
 
-        <CMSLink {...data.callToAction.link} appearance="default" />
+        {data.callToAction?.link && (
+          <CMSLink {...data.callToAction.link} appearance="default" className="shrink-0" />
+        )}
       </div>
     </header>
   )
