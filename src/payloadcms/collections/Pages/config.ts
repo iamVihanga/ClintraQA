@@ -16,7 +16,7 @@ import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 // --- Blocks ---
-
+import { HeroBlock } from '@/payloadcms/blocks/hero/config'
 // --- End Blocks ---
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -80,7 +80,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [],
+              blocks: [HeroBlock],
               required: true,
               admin: {
                 initCollapsed: true,

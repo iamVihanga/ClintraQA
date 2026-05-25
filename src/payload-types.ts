@@ -305,7 +305,7 @@ export interface FolderInterface {
 export interface Page {
   id: number;
   title: string;
-  layout: unknown[];
+  layout: HeroBlock[];
   meta?: {
     title?: string | null;
     /**
@@ -323,6 +323,84 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  eyebrow?: string | null;
+  headline?: {
+    beforeText?: string | null;
+    animativeWords?:
+      | {
+          word: string;
+          id?: string | null;
+        }[]
+      | null;
+    afterText?: string | null;
+  };
+  subtitle?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cta?: {
+    primaryCta?: {
+      enabled?: boolean | null;
+      link?: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: number | Page;
+        } | null;
+        url?: string | null;
+        label: string;
+      };
+    };
+    secondaryCta?: {
+      enabled?: boolean | null;
+      link?: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: number | Page;
+        } | null;
+        url?: string | null;
+        label: string;
+      };
+    };
+  };
+  credibilityStats?: {
+    enabled?: boolean | null;
+    stats?:
+      | {
+          number: number;
+          /**
+           * e.g. "+", "%"
+           */
+          suffix?: string | null;
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  heroImage?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -847,7 +925,11 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
-  layout?: T | {};
+  layout?:
+    | T
+    | {
+        hero?: T | HeroBlockSelect<T>;
+      };
   meta?:
     | T
     | {
@@ -861,6 +943,74 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock_select".
+ */
+export interface HeroBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  headline?:
+    | T
+    | {
+        beforeText?: T;
+        animativeWords?:
+          | T
+          | {
+              word?: T;
+              id?: T;
+            };
+        afterText?: T;
+      };
+  subtitle?: T;
+  cta?:
+    | T
+    | {
+        primaryCta?:
+          | T
+          | {
+              enabled?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        secondaryCta?:
+          | T
+          | {
+              enabled?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+      };
+  credibilityStats?:
+    | T
+    | {
+        enabled?: T;
+        stats?:
+          | T
+          | {
+              number?: T;
+              suffix?: T;
+              label?: T;
+              id?: T;
+            };
+      };
+  heroImage?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
