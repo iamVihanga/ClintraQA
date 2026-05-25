@@ -2,13 +2,14 @@ import type { GlobalConfig } from 'payload'
 
 import { anyone } from '@/payloadcms/access/anyone'
 import { defaultLexicalEditor } from '@/payloadcms/fields/default-lexical-editor'
+import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 import { revalidateAvailabilityNotices } from './hooks/revalidate-availability-notices'
 
 export const AvailabilityNotices: GlobalConfig = {
   slug: 'availability-notices',
   admin: {
-    group: 'Global Settings',
+    group: AdminGroups.GlobalSettings,
   },
   access: {
     read: anyone,

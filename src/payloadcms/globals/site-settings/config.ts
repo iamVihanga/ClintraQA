@@ -1,13 +1,14 @@
 import type { GlobalConfig } from 'payload'
 
 import { anyone } from '@/payloadcms/access/anyone'
+import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 import { revalidateSiteSettings } from './hooks/revalidate-site-settings'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   admin: {
-    group: 'Global Settings',
+    group: AdminGroups.GlobalSettings,
   },
   access: {
     read: anyone,

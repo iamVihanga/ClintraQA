@@ -2,13 +2,14 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/payloadcms/fields/link'
 import { anyone } from '@/payloadcms/access/anyone'
+import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 import { revalidateHeader } from './hooks/revalidate-header'
 
 export const Header: GlobalConfig = {
   slug: 'header',
   admin: {
-    group: 'Navigation & Layout',
+    group: AdminGroups.NavigationAndLayout,
   },
   access: {
     read: anyone,
@@ -27,7 +28,7 @@ export const Header: GlobalConfig = {
       admin: {
         initCollapsed: true,
         components: {
-          RowLabel: '@/Header/RowLabel#RowLabel',
+          RowLabel: '@/payloadcms/globals/header/RowLabel#RowLabel',
         },
       },
     },

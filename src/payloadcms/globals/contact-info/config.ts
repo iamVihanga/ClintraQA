@@ -2,13 +2,14 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/payloadcms/fields/link'
 import { anyone } from '@/payloadcms/access/anyone'
+import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 import { revalidateContactInfo } from './hooks/revalidate-contact-info'
 
 export const ContactInfo: GlobalConfig = {
   slug: 'contact-info',
   admin: {
-    group: 'Contact & Communication',
+    group: AdminGroups.GlobalSettings,
   },
   access: {
     read: anyone,

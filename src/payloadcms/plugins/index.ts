@@ -8,6 +8,7 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 import type { Page } from '@/payload-types'
 import { revalidateRedirects } from '../hooks/revalidate-redirects'
 import { getServerSideURL } from '../utils/get-url'
+import { AdminGroups } from '../utils/admin-groups'
 
 // -------- SEO Plugin Helpers --------
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
@@ -25,6 +26,9 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages'],
     overrides: {
+      admin: {
+        group: AdminGroups.ContentManagement,
+      },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -58,7 +62,15 @@ export const plugins: Plugin[] = [
     fields: {
       payment: false,
     },
+    formSubmissionOverrides: {
+      admin: {
+        group: AdminGroups.FormsAndSubmissions,
+      },
+    },
     formOverrides: {
+      admin: {
+        group: AdminGroups.FormsAndSubmissions,
+      },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {

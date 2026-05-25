@@ -13,6 +13,7 @@ import { published } from '@/payloadcms/access/published'
 import { populatePublishedAt } from '@/payloadcms/hooks/populate-publishedAt'
 import { generatePreviewPath } from '@/payloadcms/utils/generate-preview-path'
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
+import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 // --- Blocks ---
 
@@ -47,7 +48,7 @@ export const Pages: CollectionConfig<'pages'> = {
         req,
       }),
     useAsTitle: 'title',
-    group: 'Content Management',
+    group: AdminGroups.ContentManagement,
   },
   hooks: {
     afterChange: [revalidatePage],

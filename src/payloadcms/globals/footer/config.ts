@@ -2,13 +2,14 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/payloadcms/fields/link'
 import { anyone } from '@/payloadcms/access/anyone'
+import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 import { revalidateFooter } from './hooks/revalidate-footer'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
   admin: {
-    group: 'Navigation & Layout',
+    group: AdminGroups.NavigationAndLayout,
   },
   access: {
     read: anyone,
