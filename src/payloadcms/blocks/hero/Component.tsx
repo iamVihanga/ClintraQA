@@ -1,4 +1,7 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import type { HeroBlock as HeroBlockProps } from '@/payload-types'
 
 import { cn } from '@/lib/utils'
@@ -9,6 +12,16 @@ import RichText from '@/components/RichText'
 type Props = {
   className?: string
 } & HeroBlockProps
+
+/** Smooth "ease-out-expo" curve used throughout the hero entrance. */
+const ease = [0.22, 1, 0.36, 1] as const
+
+/** Returns initial/animate/transition props for a fade-up entrance. */
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.65, delay, ease },
+})
 
 export const HeroBlock: React.FC<Props> = ({
   className,
@@ -23,11 +36,24 @@ export const HeroBlock: React.FC<Props> = ({
   const { primaryCta, secondaryCta } = cta ?? {}
   const hasImage = heroImage && typeof heroImage === 'object'
 
+  // Cycle through animative words
+  const [wordIndex, setWordIndex] = useState(0)
+  useEffect(() => {
+    if (!animativeWords?.length || animativeWords.length <= 1) return
+    const id = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % animativeWords.length)
+    }, 2800)
+    return () => clearInterval(id)
+  }, [animativeWords])
+
   return (
     <section className={cn('relative overflow-hidden bg-navy px-6 py-25', className)}>
-      {/* Decorative subtle grid */}
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-[0.06]"
+      {/* Decorative subtle grid — slow fade in */}
+      <motion.div
+        className="pointer-events-none absolute inset-y-0 right-0 w-1/2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.06 }}
+        transition={{ duration: 2, delay: 0.6, ease: 'easeOut' }}
         aria-hidden
       >
         <svg viewBox="0 0 600 600" className="h-full w-full" fill="none">
@@ -46,7 +72,7 @@ export const HeroBlock: React.FC<Props> = ({
             )),
           )}
         </svg>
-      </div>
+      </motion.div>
 
       <div
         className="relative mx-auto grid items-center gap-16"
@@ -59,51 +85,62 @@ export const HeroBlock: React.FC<Props> = ({
         <div>
           {/* Eyebrow badge */}
           {eyebrow && (
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-navy-light/35 px-3.5 py-1.5">
+            <motion.div
+              {...fadeUp(0.05)}
+              className="mb-7 inline-flex items-center gap-2 rounded-full border border-navy-light/35 px-3.5 py-1.5"
+            >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-navy-light" />
               <span className="text-[12px] font-medium uppercase tracking-[0.12em] text-navy-light">
                 {eyebrow}
               </span>
-            </div>
+            </motion.div>
           )}
 
-          {/* Headline */}
-          {(beforeText || animativeWords?.length || afterText) && (
+          {/* Headline — each line is an animated block span */}
+          {(beforeText || !!animativeWords?.length || afterText) && (
             <h1 className="mb-6 font-heading text-[52px] leading-[1.1] tracking-[-0.5px] text-white">
               {beforeText && (
-                <>
+                <motion.span {...fadeUp(0.15)} className="block">
                   {beforeText}
-                  <br />
-                </>
+                </motion.span>
               )}
-              {animativeWords?.map((w, i) => (
-                <React.Fragment key={w.id ?? i}>
-                  <em className="text-navy-light">{w.word}</em>
-                  {i < animativeWords.length - 1 && <br />}
-                </React.Fragment>
-              ))}
+              {!!animativeWords?.length && (
+                <AnimatePresence mode="wait">
+                  <motion.em
+                    key={wordIndex}
+                    initial={{ opacity: 0, y: 16, filter: 'blur(4px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -16, filter: 'blur(4px)' }}
+                    transition={{ duration: 0.45, ease }}
+                    className="block text-navy-light"
+                  >
+                    {animativeWords[wordIndex]?.word}
+                  </motion.em>
+                </AnimatePresence>
+              )}
               {afterText && (
-                <>
-                  <br />
+                <motion.span {...fadeUp(0.35)} className="block">
                   {afterText}
-                </>
+                </motion.span>
               )}
             </h1>
           )}
 
           {/* Subtitle */}
           {subtitle && (
-            <RichText
-              data={subtitle}
-              enableGutter={false}
-              enableProse={false}
-              className="mb-10 max-w-130 text-[17px] leading-[1.75] text-white/70"
-            />
+            <motion.div {...fadeUp(0.45)}>
+              <RichText
+                data={subtitle}
+                enableGutter={false}
+                enableProse={false}
+                className="mb-10 max-w-130 text-[17px] leading-[1.75] text-white/70"
+              />
+            </motion.div>
           )}
 
           {/* CTA buttons */}
           {(primaryCta?.enabled || secondaryCta?.enabled) && (
-            <div className="flex flex-wrap items-center gap-3">
+            <motion.div {...fadeUp(0.55)} className="flex flex-wrap items-center gap-3">
               {primaryCta?.enabled && primaryCta.link?.label && (
                 <CMSLink
                   {...primaryCta.link}
@@ -118,30 +155,35 @@ export const HeroBlock: React.FC<Props> = ({
                   className="inline-flex items-center justify-center rounded-md border border-white/25 px-7 py-3.5 text-[15px] font-medium text-white/85 transition-all hover:border-white/60 hover:text-white"
                 />
               )}
-            </div>
+            </motion.div>
           )}
 
           {/* Credibility stats */}
           {credibilityStats?.enabled && !!credibilityStats.stats?.length && (
-            <div className="mt-14 flex border-t border-white/10 pt-10">
+            <motion.div {...fadeUp(0.65)} className="mt-14 flex border-t border-white/10 pt-10">
               {credibilityStats.stats.map((stat, i) => (
-                <div key={stat.id ?? i} className="flex-1 pr-6">
+                <motion.div key={stat.id ?? i} {...fadeUp(0.7 + i * 0.08)} className="flex-1 pr-6">
                   <div className="font-heading text-[32px] leading-none text-white">
                     {stat.number}
                     {stat.suffix}
                   </div>
                   <div className="mt-1.5 text-[13px] leading-snug text-white/55">{stat.label}</div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
 
-        {/* ── Right: hero image ── */}
+        {/* ── Right: hero image — slides in from right ── */}
         {hasImage && (
-          <div className="relative h-130 overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/10">
+          <motion.div
+            initial={{ opacity: 0, x: 48, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.2, ease }}
+            className="relative h-130 overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/10"
+          >
             <Media resource={heroImage} fill htmlElement={null} imgClassName="object-cover" />
-          </div>
+          </motion.div>
         )}
       </div>
     </section>
