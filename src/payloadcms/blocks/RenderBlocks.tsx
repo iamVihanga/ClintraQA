@@ -5,10 +5,12 @@ import type { Page } from '@/payload-types'
 // --- Blocks ---
 import { HeroBlock } from './hero/Component'
 import { AvailabilityPanel } from './availability-panel/Component'
+import { SectionHeader } from './section-header/Component'
 
 const blockComponents = {
   hero: HeroBlock,
   'availability-panel': AvailabilityPanel,
+  'section-header': SectionHeader,
 }
 
 export const RenderBlocks: React.FC<{

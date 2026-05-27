@@ -18,6 +18,7 @@ import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 // --- Blocks ---
 import { HeroBlock } from '@/payloadcms/blocks/hero/config'
 import { AvailabilityPanelBlock } from '@/payloadcms/blocks/availability-panel/config'
+import { SectionHeaderBlock } from '@/payloadcms/blocks/section-header/config'
 // --- End Blocks ---
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -81,7 +82,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroBlock, AvailabilityPanelBlock],
+              blocks: [HeroBlock, AvailabilityPanelBlock, SectionHeaderBlock],
               required: true,
               admin: {
                 initCollapsed: true,

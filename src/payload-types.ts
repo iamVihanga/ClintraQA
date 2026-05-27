@@ -307,7 +307,7 @@ export interface FolderInterface {
 export interface Page {
   id: number;
   title: string;
-  layout: (HeroBlock | AvailabilityPanelBlock)[];
+  layout: (HeroBlock | AvailabilityPanelBlock | SectionHeaderBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -483,6 +483,35 @@ export interface Service {
   slug: string;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionHeaderBlock".
+ */
+export interface SectionHeaderBlock {
+  label?: string | null;
+  title?: string | null;
+  subtitle?: string | null;
+  cta?: {
+    enabled?: boolean | null;
+    link?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?: {
+        relationTo: 'pages';
+        value: number | Page;
+      } | null;
+      url?: string | null;
+      label: string;
+      /**
+       * Choose how the link should be rendered.
+       */
+      appearance?: ('default' | 'outline') | null;
+    };
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section-header';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1016,6 +1045,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         hero?: T | HeroBlockSelect<T>;
         'availability-panel'?: T | AvailabilityPanelBlockSelect<T>;
+        'section-header'?: T | SectionHeaderBlockSelect<T>;
       };
   meta?:
     | T
@@ -1105,6 +1135,32 @@ export interface HeroBlockSelect<T extends boolean = true> {
  */
 export interface AvailabilityPanelBlockSelect<T extends boolean = true> {
   selectedServices?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionHeaderBlock_select".
+ */
+export interface SectionHeaderBlockSelect<T extends boolean = true> {
+  label?: T;
+  title?: T;
+  subtitle?: T;
+  cta?:
+    | T
+    | {
+        enabled?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+      };
   id?: T;
   blockName?: T;
 }
