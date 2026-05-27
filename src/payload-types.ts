@@ -307,7 +307,7 @@ export interface FolderInterface {
 export interface Page {
   id: number;
   title: string;
-  layout: HeroBlock[];
+  layout: (HeroBlock | AvailabilityPanelBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -403,6 +403,16 @@ export interface HeroBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AvailabilityPanelBlock".
+ */
+export interface AvailabilityPanelBlock {
+  selectedServices?: (number | Service)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'availability-panel';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1005,6 +1015,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         hero?: T | HeroBlockSelect<T>;
+        'availability-panel'?: T | AvailabilityPanelBlockSelect<T>;
       };
   meta?:
     | T
@@ -1085,6 +1096,15 @@ export interface HeroBlockSelect<T extends boolean = true> {
             };
       };
   heroImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AvailabilityPanelBlock_select".
+ */
+export interface AvailabilityPanelBlockSelect<T extends boolean = true> {
+  selectedServices?: T;
   id?: T;
   blockName?: T;
 }

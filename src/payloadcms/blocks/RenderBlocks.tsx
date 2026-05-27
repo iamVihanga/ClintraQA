@@ -2,10 +2,13 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
+// --- Blocks ---
 import { HeroBlock } from './hero/Component'
+import { AvailabilityPanel } from './availability-panel/Component'
 
 const blockComponents = {
   hero: HeroBlock,
+  'availability-panel': AvailabilityPanel,
 }
 
 export const RenderBlocks: React.FC<{
