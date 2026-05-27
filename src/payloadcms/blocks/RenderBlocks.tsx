@@ -6,11 +6,13 @@ import type { Page } from '@/payload-types'
 import { HeroBlock } from './hero/Component'
 import { AvailabilityPanel } from './availability-panel/Component'
 import { SectionHeader } from './section-header/Component'
+import { ServiceGrid } from './service-grid/Component'
 
 const blockComponents = {
   hero: HeroBlock,
   'availability-panel': AvailabilityPanel,
   'section-header': SectionHeader,
+  'service-grid': ServiceGrid,
 }
 
 export const RenderBlocks: React.FC<{

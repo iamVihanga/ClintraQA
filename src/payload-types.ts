@@ -307,7 +307,7 @@ export interface FolderInterface {
 export interface Page {
   id: number;
   title: string;
-  layout: (HeroBlock | AvailabilityPanelBlock | SectionHeaderBlock)[];
+  layout: (HeroBlock | AvailabilityPanelBlock | SectionHeaderBlock | ServiceGridBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -512,6 +512,31 @@ export interface SectionHeaderBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'section-header';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceGridBlock".
+ */
+export interface ServiceGridBlock {
+  /**
+   * When enabled, all visible services are displayed. Uncheck to handpick specific services.
+   */
+  showAll?: boolean | null;
+  /**
+   * Choose which services appear in this grid.
+   */
+  selectedServices?: (number | Service)[] | null;
+  /**
+   * Display deliverable tags on each service card.
+   */
+  showDeliverables?: boolean | null;
+  /**
+   * URL that all "Request" buttons link to. Accepts a path (e.g. /contact) or anchor.
+   */
+  requestUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'service-grid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1046,6 +1071,7 @@ export interface PagesSelect<T extends boolean = true> {
         hero?: T | HeroBlockSelect<T>;
         'availability-panel'?: T | AvailabilityPanelBlockSelect<T>;
         'section-header'?: T | SectionHeaderBlockSelect<T>;
+        'service-grid'?: T | ServiceGridBlockSelect<T>;
       };
   meta?:
     | T
@@ -1161,6 +1187,18 @@ export interface SectionHeaderBlockSelect<T extends boolean = true> {
               appearance?: T;
             };
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceGridBlock_select".
+ */
+export interface ServiceGridBlockSelect<T extends boolean = true> {
+  showAll?: T;
+  selectedServices?: T;
+  showDeliverables?: T;
+  requestUrl?: T;
   id?: T;
   blockName?: T;
 }
