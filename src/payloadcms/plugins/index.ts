@@ -27,7 +27,7 @@ export const plugins: Plugin[] = [
     collections: ['pages'],
     overrides: {
       admin: {
-        group: AdminGroups.ContentManagement,
+        group: AdminGroups.Administration,
       },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {

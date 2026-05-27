@@ -7,6 +7,7 @@ import sharp from 'sharp'
 import { Users } from './payloadcms/collections/Users/config'
 import { Media } from './payloadcms/collections/Media/config'
 import { Pages } from './payloadcms/collections/Pages/config'
+import { Services } from './payloadcms/collections/Services/config'
 import { defaultLexicalEditor } from './payloadcms/fields/default-lexical-editor'
 import { getServerSideURL } from './payloadcms/utils/get-url'
 import { plugins } from './payloadcms/plugins'
@@ -51,7 +52,7 @@ export default buildConfig({
   },
 
   // --- Database Collection Injections ---
-  collections: [Users, Media, Pages],
+  collections: [Users, Media, Pages, Services],
 
   // --- Globals ---
   globals: [SiteSettings, AvailabilityNotices, Header, Footer, ContactInfo],
