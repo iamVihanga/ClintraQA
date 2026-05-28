@@ -9,6 +9,7 @@ import { fontClass } from '@/lib/fonts'
 import { AdminBar } from '@/components/AdminBar'
 import { draftMode } from 'next/headers'
 import { Header } from '@/payloadcms/globals/header/Component'
+import { Footer } from '@/payloadcms/globals/footer/Component'
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
@@ -25,6 +26,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   )
