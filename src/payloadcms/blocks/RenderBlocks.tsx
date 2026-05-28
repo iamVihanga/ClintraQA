@@ -9,6 +9,7 @@ import { SectionHeader } from './section-header/Component'
 import { ServiceGrid } from './service-grid/Component'
 import { DarkLayout } from './layout-blocks/dark/Component'
 import { ApproachSteps } from './approach-steps/Component'
+import { ConsultantProfileBlock } from './consultant-profile/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -17,6 +18,7 @@ const blockComponents = {
   'service-grid': ServiceGrid,
   'dark-layout': DarkLayout,
   'approach-steps-block': ApproachSteps,
+  'consultant-profile': ConsultantProfileBlock,
 }
 
 export const RenderBlocks: React.FC<{

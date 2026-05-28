@@ -22,6 +22,7 @@ import { SectionHeaderBlock } from '@/payloadcms/blocks/section-header/config'
 import { ServiceGridBlock } from '@/payloadcms/blocks/service-grid/config'
 import { DarkLayoutBlock } from '@/payloadcms/blocks/layout-blocks/dark/config'
 import { ApproachStepsBlock } from '@/payloadcms/blocks/approach-steps/config'
+import { ConsultantProfileBlock } from '@/payloadcms/blocks/consultant-profile/config'
 // --- End Blocks ---
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -92,6 +93,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ServiceGridBlock,
                 DarkLayoutBlock,
                 ApproachStepsBlock,
+                ConsultantProfileBlock,
               ],
               required: true,
               admin: {

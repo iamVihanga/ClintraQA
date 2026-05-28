@@ -316,6 +316,7 @@ export interface Page {
     | ServiceGridBlock
     | DarkLayoutBlock
     | ApproachStepsBlock
+    | ConsultantProfileBlock
   )[];
   meta?: {
     title?: string | null;
@@ -567,6 +568,46 @@ export interface ApproachStepsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'approach-steps-block';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConsultantProfileBlock".
+ */
+export interface ConsultantProfileBlock {
+  /**
+   * Small uppercase label above the heading (e.g. "About")
+   */
+  sectionLabel?: string | null;
+  photo?: (number | null) | Media;
+  name: string;
+  /**
+   * e.g. "Senior GCP QA Consultant · Independent Consultancy"
+   */
+  credentials?: string | null;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  expertiseAreas?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'consultant-profile';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1104,6 +1145,7 @@ export interface PagesSelect<T extends boolean = true> {
         'service-grid'?: T | ServiceGridBlockSelect<T>;
         'dark-layout'?: T | DarkLayoutBlockSelect<T>;
         'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
+        'consultant-profile'?: T | ConsultantProfileBlockSelect<T>;
       };
   meta?:
     | T
@@ -1255,6 +1297,25 @@ export interface DarkLayoutBlockSelect<T extends boolean = true> {
 export interface ApproachStepsBlockSelect<T extends boolean = true> {
   theme?: T;
   bottomPadding?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConsultantProfileBlock_select".
+ */
+export interface ConsultantProfileBlockSelect<T extends boolean = true> {
+  sectionLabel?: T;
+  photo?: T;
+  name?: T;
+  credentials?: T;
+  bio?: T;
+  expertiseAreas?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
