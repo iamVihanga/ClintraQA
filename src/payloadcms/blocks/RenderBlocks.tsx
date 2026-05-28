@@ -7,7 +7,7 @@ import { HeroBlock } from './hero/Component'
 import { AvailabilityPanel } from './availability-panel/Component'
 import { SectionHeader } from './section-header/Component'
 import { ServiceGrid } from './service-grid/Component'
-import { DarkLayout } from './layout-blocks/dark/Component'
+import { ThemedLayout } from './layout-blocks/themed/Component'
 import { ApproachSteps } from './approach-steps/Component'
 import { ConsultantProfileBlock } from './consultant-profile/Component'
 
@@ -16,7 +16,7 @@ const blockComponents = {
   'availability-panel': AvailabilityPanel,
   'section-header': SectionHeader,
   'service-grid': ServiceGrid,
-  'dark-layout': DarkLayout,
+  'themed-layout': ThemedLayout,
   'approach-steps-block': ApproachSteps,
   'consultant-profile': ConsultantProfileBlock,
 }

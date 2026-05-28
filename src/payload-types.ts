@@ -314,7 +314,7 @@ export interface Page {
     | AvailabilityPanelBlock
     | SectionHeaderBlock
     | ServiceGridBlock
-    | DarkLayoutBlock
+    | ThemedLayoutBlock
     | ApproachStepsBlock
     | ConsultantProfileBlock
   )[];
@@ -550,13 +550,14 @@ export interface ServiceGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DarkLayoutBlock".
+ * via the `definition` "ThemedLayoutBlock".
  */
-export interface DarkLayoutBlock {
+export interface ThemedLayoutBlock {
+  theme: 'secondary' | 'navy';
   innerBlocks?: (SectionHeaderBlock | ApproachStepsBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'dark-layout';
+  blockType: 'themed-layout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1143,7 +1144,7 @@ export interface PagesSelect<T extends boolean = true> {
         'availability-panel'?: T | AvailabilityPanelBlockSelect<T>;
         'section-header'?: T | SectionHeaderBlockSelect<T>;
         'service-grid'?: T | ServiceGridBlockSelect<T>;
-        'dark-layout'?: T | DarkLayoutBlockSelect<T>;
+        'themed-layout'?: T | ThemedLayoutBlockSelect<T>;
         'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
         'consultant-profile'?: T | ConsultantProfileBlockSelect<T>;
       };
@@ -1278,9 +1279,10 @@ export interface ServiceGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DarkLayoutBlock_select".
+ * via the `definition` "ThemedLayoutBlock_select".
  */
-export interface DarkLayoutBlockSelect<T extends boolean = true> {
+export interface ThemedLayoutBlockSelect<T extends boolean = true> {
+  theme?: T;
   innerBlocks?:
     | T
     | {

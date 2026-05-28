@@ -20,7 +20,7 @@ import { HeroBlock } from '@/payloadcms/blocks/hero/config'
 import { AvailabilityPanelBlock } from '@/payloadcms/blocks/availability-panel/config'
 import { SectionHeaderBlock } from '@/payloadcms/blocks/section-header/config'
 import { ServiceGridBlock } from '@/payloadcms/blocks/service-grid/config'
-import { DarkLayoutBlock } from '@/payloadcms/blocks/layout-blocks/dark/config'
+import { ThemedLayoutBlock } from '@/payloadcms/blocks/layout-blocks/themed/config'
 import { ApproachStepsBlock } from '@/payloadcms/blocks/approach-steps/config'
 import { ConsultantProfileBlock } from '@/payloadcms/blocks/consultant-profile/config'
 // --- End Blocks ---
@@ -91,7 +91,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 AvailabilityPanelBlock,
                 SectionHeaderBlock,
                 ServiceGridBlock,
-                DarkLayoutBlock,
+                ThemedLayoutBlock,
                 ApproachStepsBlock,
                 ConsultantProfileBlock,
               ],

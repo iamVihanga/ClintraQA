@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
 
-import type { DarkLayoutBlock as DarkLayoutProps } from '@/payload-types'
+import type { ThemedLayoutBlock as ThemedLayoutProps } from '@/payload-types'
 
 // --- Nested Blocks ---
 import { SectionHeader } from '../../section-header/Component'
 import { ApproachSteps } from '../../approach-steps/Component'
+import { cn } from '@/lib/utils'
 
 const blockComponents = {
   'section-header': SectionHeader,
@@ -13,15 +14,20 @@ const blockComponents = {
 
 type Props = {
   className?: string
-} & DarkLayoutProps
+} & ThemedLayoutProps
 
-export function DarkLayout({ className, innerBlocks }: Props) {
+export function ThemedLayout({ className, theme, innerBlocks }: Props) {
   const hasBlocks = innerBlocks && Array.isArray(innerBlocks) && innerBlocks.length > 0
 
   if (hasBlocks) {
     return (
       <Fragment>
-        <div className="pb-16 bg-navy">
+        <div
+          className={cn('pb-16', {
+            'bg-navy': theme === 'navy',
+            'bg-warm-gray-100': theme === 'secondary',
+          })}
+        >
           {innerBlocks.map((block, index) => {
             const { blockType } = block
 
@@ -32,7 +38,7 @@ export function DarkLayout({ className, innerBlocks }: Props) {
                 return (
                   <div className="" key={index}>
                     {/* @ts-expect-error there may be some mismatch between the expected types here */}
-                    <Block {...block} isDark={true} disableInnerContainer />
+                    <Block {...block} isDark={theme === 'navy' && true} disableInnerContainer />
                   </div>
                 )
               }
