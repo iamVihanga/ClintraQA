@@ -9,7 +9,7 @@ export const revalidateApproachSteps: GlobalAfterChangeHook = ({
   if (!context.disableRevalidate) {
     payload.logger.info(`Revalidating approach steps`)
 
-    revalidateTag('global_approach_steps', 'max')
+    revalidateTag('global_approachSteps')
   }
 
   return doc

@@ -317,6 +317,7 @@ export interface Page {
     | ThemedLayoutBlock
     | ApproachStepsBlock
     | ConsultantProfileBlock
+    | GridLayoutBlock
   )[];
   meta?: {
     title?: string | null;
@@ -554,7 +555,7 @@ export interface ServiceGridBlock {
  */
 export interface ThemedLayoutBlock {
   theme: 'secondary' | 'navy';
-  innerBlocks?: (SectionHeaderBlock | ApproachStepsBlock)[] | null;
+  innerBlocks?: (SectionHeaderBlock | ApproachStepsBlock | GridLayoutBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'themed-layout';
@@ -569,6 +570,35 @@ export interface ApproachStepsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'approach-steps-block';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GridLayoutBlock".
+ */
+export interface GridLayoutBlock {
+  cards?:
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'grid-layout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1147,6 +1177,7 @@ export interface PagesSelect<T extends boolean = true> {
         'themed-layout'?: T | ThemedLayoutBlockSelect<T>;
         'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
         'consultant-profile'?: T | ConsultantProfileBlockSelect<T>;
+        'grid-layout'?: T | GridLayoutBlockSelect<T>;
       };
   meta?:
     | T
@@ -1288,6 +1319,7 @@ export interface ThemedLayoutBlockSelect<T extends boolean = true> {
     | {
         'section-header'?: T | SectionHeaderBlockSelect<T>;
         'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
+        'grid-layout'?: T | GridLayoutBlockSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -1299,6 +1331,20 @@ export interface ThemedLayoutBlockSelect<T extends boolean = true> {
 export interface ApproachStepsBlockSelect<T extends boolean = true> {
   theme?: T;
   bottomPadding?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GridLayoutBlock_select".
+ */
+export interface GridLayoutBlockSelect<T extends boolean = true> {
+  cards?:
+    | T
+    | {
+        content?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2064,6 +2110,35 @@ export interface TaskSchedulePublish {
     user?: (number | null) | User;
   };
   output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichLinkBlock".
+ */
+export interface RichLinkBlock {
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'rich-link';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialLinksBlock".
+ */
+export interface SocialLinksBlock {
+  divider?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'social-links';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

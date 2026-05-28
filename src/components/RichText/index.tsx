@@ -11,8 +11,15 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 
 import { cn } from '@/lib/utils'
+import type {
+  RichLinkBlock as RichLinkBlockProps,
+  SocialLinksBlock as SocialLinksBlockProps,
+} from '@/payload-types'
 
-type NodeTypes = DefaultNodeTypes
+import { RichLink as RichLinkComponent } from '@/payloadcms/blocks/lexical-blocks/rich-link/Component'
+import { SocialLinksConverter } from '@/payloadcms/blocks/lexical-blocks/social-links/Converter'
+
+type NodeTypes = DefaultNodeTypes | SerializedBlockNode<RichLinkBlockProps | SocialLinksBlockProps>
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
@@ -26,7 +33,10 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
-  blocks: {},
+  blocks: {
+    'rich-link': ({ node }) => <RichLinkComponent {...node.fields} />,
+    'social-links': ({ node }) => <SocialLinksConverter {...node.fields} />,
+  },
 })
 
 type Props = {

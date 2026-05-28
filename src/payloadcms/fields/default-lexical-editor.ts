@@ -23,7 +23,10 @@ import {
   UnderlineFeature,
   UnorderedListFeature,
   UploadFeature,
+  BlocksFeature,
 } from '@payloadcms/richtext-lexical'
+import { RichLinkBlock } from '../blocks/lexical-blocks/rich-link/config'
+import { SocialLinksBlock } from '../blocks/lexical-blocks/social-links/config'
 
 export const defaultLexicalEditor = lexicalEditor({
   features: [
@@ -88,5 +91,10 @@ export const defaultLexicalEditor = lexicalEditor({
     // Toolbars
     InlineToolbarFeature(),
     FixedToolbarFeature(),
+
+    // Blocks
+    BlocksFeature({
+      blocks: [RichLinkBlock, SocialLinksBlock],
+    }),
   ],
 })

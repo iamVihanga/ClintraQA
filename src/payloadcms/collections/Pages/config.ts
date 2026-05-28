@@ -21,6 +21,7 @@ import { AvailabilityPanelBlock } from '@/payloadcms/blocks/availability-panel/c
 import { SectionHeaderBlock } from '@/payloadcms/blocks/section-header/config'
 import { ServiceGridBlock } from '@/payloadcms/blocks/service-grid/config'
 import { ThemedLayoutBlock } from '@/payloadcms/blocks/layout-blocks/themed/config'
+import { GridLayoutBlock } from '@/payloadcms/blocks/layout-blocks/grid/config'
 import { ApproachStepsBlock } from '@/payloadcms/blocks/approach-steps/config'
 import { ConsultantProfileBlock } from '@/payloadcms/blocks/consultant-profile/config'
 // --- End Blocks ---
@@ -94,6 +95,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ThemedLayoutBlock,
                 ApproachStepsBlock,
                 ConsultantProfileBlock,
+                GridLayoutBlock,
               ],
               required: true,
               admin: {

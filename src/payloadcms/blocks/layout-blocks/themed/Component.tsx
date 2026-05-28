@@ -1,15 +1,17 @@
 import React, { Fragment } from 'react'
 
 import type { ThemedLayoutBlock as ThemedLayoutProps } from '@/payload-types'
+import { cn } from '@/lib/utils'
 
 // --- Nested Blocks ---
 import { SectionHeader } from '../../section-header/Component'
 import { ApproachSteps } from '../../approach-steps/Component'
-import { cn } from '@/lib/utils'
+import { GridLayout } from '../grid/Component'
 
 const blockComponents = {
   'section-header': SectionHeader,
   'approach-steps-block': ApproachSteps,
+  'grid-layout': GridLayout,
 }
 
 type Props = {

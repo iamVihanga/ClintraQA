@@ -10,6 +10,7 @@ import { ServiceGrid } from './service-grid/Component'
 import { ThemedLayout } from './layout-blocks/themed/Component'
 import { ApproachSteps } from './approach-steps/Component'
 import { ConsultantProfileBlock } from './consultant-profile/Component'
+import { GridLayout } from './layout-blocks/grid/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -19,6 +20,7 @@ const blockComponents = {
   'themed-layout': ThemedLayout,
   'approach-steps-block': ApproachSteps,
   'consultant-profile': ConsultantProfileBlock,
+  'grid-layout': GridLayout,
 }
 
 export const RenderBlocks: React.FC<{
