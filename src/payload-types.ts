@@ -111,6 +111,7 @@ export interface Config {
     header: Header;
     footer: Footer;
     'contact-info': ContactInfo;
+    approachSteps: ApproachStep;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
@@ -118,6 +119,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    approachSteps: ApproachStepsSelect<false> | ApproachStepsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -307,7 +309,14 @@ export interface FolderInterface {
 export interface Page {
   id: number;
   title: string;
-  layout: (HeroBlock | AvailabilityPanelBlock | SectionHeaderBlock | ServiceGridBlock)[];
+  layout: (
+    | HeroBlock
+    | AvailabilityPanelBlock
+    | SectionHeaderBlock
+    | ServiceGridBlock
+    | DarkLayoutBlock
+    | ApproachStepsBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -537,6 +546,27 @@ export interface ServiceGridBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'service-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DarkLayoutBlock".
+ */
+export interface DarkLayoutBlock {
+  innerBlocks?: (SectionHeaderBlock | ApproachStepsBlock)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dark-layout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ApproachStepsBlock".
+ */
+export interface ApproachStepsBlock {
+  theme?: ('light' | 'dark') | null;
+  bottomPadding?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'approach-steps-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1072,6 +1102,8 @@ export interface PagesSelect<T extends boolean = true> {
         'availability-panel'?: T | AvailabilityPanelBlockSelect<T>;
         'section-header'?: T | SectionHeaderBlockSelect<T>;
         'service-grid'?: T | ServiceGridBlockSelect<T>;
+        'dark-layout'?: T | DarkLayoutBlockSelect<T>;
+        'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1199,6 +1231,30 @@ export interface ServiceGridBlockSelect<T extends boolean = true> {
   selectedServices?: T;
   showDeliverables?: T;
   requestUrl?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DarkLayoutBlock_select".
+ */
+export interface DarkLayoutBlockSelect<T extends boolean = true> {
+  innerBlocks?:
+    | T
+    | {
+        'section-header'?: T | SectionHeaderBlockSelect<T>;
+        'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ApproachStepsBlock_select".
+ */
+export interface ApproachStepsBlockSelect<T extends boolean = true> {
+  theme?: T;
+  bottomPadding?: T;
   id?: T;
   blockName?: T;
 }
@@ -1720,6 +1776,23 @@ export interface ContactInfo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "approachSteps".
+ */
+export interface ApproachStep {
+  id: number;
+  steps?:
+    | {
+        number?: string | null;
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -1880,6 +1953,23 @@ export interface ContactInfoSelect<T extends boolean = true> {
         weekdays?: T;
         weekends?: T;
         additionalNotes?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "approachSteps_select".
+ */
+export interface ApproachStepsSelect<T extends boolean = true> {
+  steps?:
+    | T
+    | {
+        number?: T;
+        title?: T;
+        description?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -17,7 +17,7 @@ export const SectionHeaderBlock: Block = {
     {
       name: 'title',
       label: 'Title',
-      type: 'text',
+      type: 'textarea',
     },
     {
       name: 'subtitle',

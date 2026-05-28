@@ -8,15 +8,17 @@ import { CMSLink, type CMSLinkType } from '@/components/Link'
 
 type Props = {
   className?: string
+  isDark?: boolean
 } & SectionHeaderProps
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-export function SectionHeader({ className, label, title, subtitle, cta }: Props) {
+export function SectionHeader({ className, isDark, ...props }: Props) {
+  const { label, title, subtitle, cta } = props
   const hasCTA = cta?.enabled && cta.link?.label
 
   return (
-    <div className={cn('mx-auto py-14', className)} style={{ maxWidth: '1160px' }}>
+    <div className={cn('mx-auto py-14 bg-transparent', className)} style={{ maxWidth: '1160px' }}>
       <div className={cn('flex flex-wrap items-end justify-between gap-x-12 gap-y-6')}>
         {/* Left: label / title / subtitle */}
         <div className="min-w-0">
@@ -26,7 +28,9 @@ export function SectionHeader({ className, label, title, subtitle, cta }: Props)
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, ease }}
-              className="mb-3 text-xs font-semibold tracking-[0.18em] uppercase text-navy-main"
+              className={cn(
+                'mb-3 text-xs font-semibold tracking-[0.18em] uppercase text-navy-main',
+              )}
             >
               {label}
             </motion.p>
@@ -38,7 +42,13 @@ export function SectionHeader({ className, label, title, subtitle, cta }: Props)
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.6, delay: 0.07, ease }}
-              className="font-heading text-4xl leading-tight text-navy md:text-[2.625rem]"
+              className={cn(
+                'font-heading text-4xl leading-tight whitespace-pre-line md:text-[2.625rem]',
+                {
+                  'text-white': isDark,
+                  'text-navy': !isDark,
+                },
+              )}
             >
               {title}
             </motion.h2>
@@ -50,7 +60,10 @@ export function SectionHeader({ className, label, title, subtitle, cta }: Props)
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: 0.15, ease }}
-              className="mt-4 max-w-lg text-base leading-relaxed text-warm-gray-600"
+              className={cn('mt-4 max-w-lg text-base leading-relaxed', {
+                'text-white/60': isDark,
+                'text-warm-gray-600': !isDark,
+              })}
             >
               {subtitle}
             </motion.p>
@@ -73,7 +86,13 @@ export function SectionHeader({ className, label, title, subtitle, cta }: Props)
               label={cta.link!.label}
               newTab={cta.link!.newTab}
               appearance="inline"
-              className="group inline-flex items-center gap-1.5 text-sm font-medium text-navy-main transition-colors hover:text-navy"
+              className={cn(
+                'group inline-flex items-center gap-1.5 text-sm font-medium transition-colors',
+                {
+                  'text-white/60 hover:text-white': isDark,
+                  'text-navy-main': !isDark,
+                },
+              )}
             >
               <span
                 aria-hidden

@@ -1,5 +1,5 @@
 'use client'
-import { Footer } from '@/payload-types'
+import { ContactInfo, Footer } from '@/payload-types'
 import { RowLabelProps, useRowLabel } from '@payloadcms/ui'
 
 export const SocialMediaLinksRowLabel: React.FC<RowLabelProps> = () => {

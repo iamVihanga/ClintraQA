@@ -7,12 +7,16 @@ import { HeroBlock } from './hero/Component'
 import { AvailabilityPanel } from './availability-panel/Component'
 import { SectionHeader } from './section-header/Component'
 import { ServiceGrid } from './service-grid/Component'
+import { DarkLayout } from './layout-blocks/dark/Component'
+import { ApproachSteps } from './approach-steps/Component'
 
 const blockComponents = {
   hero: HeroBlock,
   'availability-panel': AvailabilityPanel,
   'section-header': SectionHeader,
   'service-grid': ServiceGrid,
+  'dark-layout': DarkLayout,
+  'approach-steps-block': ApproachSteps,
 }
 
 export const RenderBlocks: React.FC<{

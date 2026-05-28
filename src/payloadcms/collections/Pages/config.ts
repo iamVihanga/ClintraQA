@@ -20,6 +20,8 @@ import { HeroBlock } from '@/payloadcms/blocks/hero/config'
 import { AvailabilityPanelBlock } from '@/payloadcms/blocks/availability-panel/config'
 import { SectionHeaderBlock } from '@/payloadcms/blocks/section-header/config'
 import { ServiceGridBlock } from '@/payloadcms/blocks/service-grid/config'
+import { DarkLayoutBlock } from '@/payloadcms/blocks/layout-blocks/dark/config'
+import { ApproachStepsBlock } from '@/payloadcms/blocks/approach-steps/config'
 // --- End Blocks ---
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -83,7 +85,14 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroBlock, AvailabilityPanelBlock, SectionHeaderBlock, ServiceGridBlock],
+              blocks: [
+                HeroBlock,
+                AvailabilityPanelBlock,
+                SectionHeaderBlock,
+                ServiceGridBlock,
+                DarkLayoutBlock,
+                ApproachStepsBlock,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,
