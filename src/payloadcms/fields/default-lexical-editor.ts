@@ -1,22 +1,63 @@
 import type { TextFieldSingleValidation } from 'payload'
 import {
+  AlignFeature,
+  BlockquoteFeature,
   BoldFeature,
+  ChecklistFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  IndentFeature,
+  InlineCodeFeature,
+  InlineToolbarFeature,
   ItalicFeature,
-  LinkFeature,
-  ParagraphFeature,
   lexicalEditor,
-  UnderlineFeature,
+  LinkFeature,
   type LinkFields,
+  OrderedListFeature,
+  ParagraphFeature,
+  RelationshipFeature,
+  StrikethroughFeature,
+  SubscriptFeature,
+  SuperscriptFeature,
+  UnderlineFeature,
+  UnorderedListFeature,
+  UploadFeature,
 } from '@payloadcms/richtext-lexical'
 
 export const defaultLexicalEditor = lexicalEditor({
   features: [
+    // Block structure
     ParagraphFeature(),
-    UnderlineFeature(),
+    HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+    BlockquoteFeature(),
+    HorizontalRuleFeature(),
+
+    // Inline text formatting
     BoldFeature(),
     ItalicFeature(),
+    UnderlineFeature(),
+    StrikethroughFeature(),
+    SubscriptFeature(),
+    SuperscriptFeature(),
+    InlineCodeFeature(),
+
+    // Alignment & indentation
+    AlignFeature(),
+    IndentFeature(),
+
+    // Lists
+    UnorderedListFeature(),
+    OrderedListFeature(),
+    ChecklistFeature(),
+
+    // Media & relationships
+    UploadFeature(),
+    RelationshipFeature({ disabledCollections: ['users'] }),
+
+    // Links
     LinkFeature({
-      enabledCollections: ['pages'],
+      enabledCollections: ['pages', 'services'],
       fields: ({ defaultFields }) => {
         const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
           if ('name' in field && field.name === 'url') return false
@@ -35,7 +76,7 @@ export const defaultLexicalEditor = lexicalEditor({
             required: true,
             validate: ((value, options) => {
               if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
-                return true // no validation needed, as no url should exist for internal links
+                return true // no validation needed for internal links
               }
               return value ? true : 'URL is required'
             }) as TextFieldSingleValidation,
@@ -43,5 +84,9 @@ export const defaultLexicalEditor = lexicalEditor({
         ]
       },
     }),
+
+    // Toolbars
+    InlineToolbarFeature(),
+    FixedToolbarFeature(),
   ],
 })

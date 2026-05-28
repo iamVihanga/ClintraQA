@@ -1,0 +1,184 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-heading);
+  --font-sans: var(--font-sans);
+
+  /* ── Shadcn semantic colours ── */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  /* ── Brand palette utilities (bg-navy, text-teal, border-amber …) ── */
+  --color-navy: var(--navy);
+  --color-navy-mid: var(--navy-mid);
+  --color-navy-main: var(--navy-main);
+  --color-navy-light: var(--navy-light);
+  --color-navy-tint: var(--navy-tint);
+  --color-teal: var(--teal);
+  --color-teal-light: var(--teal-light);
+  --color-teal-dark: var(--teal-dark);
+  --color-amber: var(--amber);
+  --color-amber-light: var(--amber-light);
+  --color-amber-dark: var(--amber-dark);
+  --color-red: var(--red);
+  --color-red-light: var(--red-light);
+  --color-warm-gray-100: var(--warm-gray-100);
+  --color-warm-gray-200: var(--warm-gray-200);
+  --color-warm-gray-400: var(--warm-gray-400);
+  --color-warm-gray-600: var(--warm-gray-600);
+  --color-warm-gray-800: var(--warm-gray-800);
+
+  /* ── Radius — exact values matching prototype ── */
+  --radius-sm: 0.25rem; /* 4px  */
+  --radius-md: 0.5rem; /* 8px  */
+  --radius-lg: 0.75rem; /* 12px */
+  --radius-xl: 1rem; /* 16px */
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 1.75rem;
+}
+
+:root {
+  /* ── Brand palette raw values ── */
+  --navy: #042c53;
+  --navy-mid: #0c447c;
+  --navy-main: #185fa5;
+  --navy-light: #378add;
+  --navy-tint: #e6f1fb;
+  --teal: #1d9e75;
+  --teal-light: #eaf3de;
+  --teal-dark: #0f6e56;
+  --amber: #ba7517;
+  --amber-light: #faeeda;
+  --amber-dark: #854f0b;
+  --red: #a32d2d;
+  --red-light: #fcebeb;
+  --warm-gray-100: #f1efe8;
+  --warm-gray-200: #d3d1c7;
+  --warm-gray-400: #888780;
+  --warm-gray-600: #5f5e5a;
+  --warm-gray-800: #2c2c2a;
+
+  /* ── Shadcn semantic tokens → brand palette ── */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.22 0.004 70); /* warm-gray-800 */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.004 70);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.004 70);
+  --primary: oklch(0.41 0.122 256); /* navy-main #185FA5 */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0.008 91); /* warm-gray-100 */
+  --secondary-foreground: oklch(0.22 0.004 70);
+  --muted: oklch(0.96 0.008 91);
+  --muted-foreground: oklch(0.43 0.006 80); /* warm-gray-600 */
+  --accent: oklch(0.95 0.022 250); /* navy-tint */
+  --accent-foreground: oklch(0.22 0.077 253); /* navy */
+  --destructive: oklch(0.41 0.125 22); /* red #A32D2D */
+  --border: oklch(0.84 0.008 91); /* warm-gray-200 */
+  --input: oklch(0.84 0.008 91);
+  --ring: oklch(0.41 0.122 256); /* navy-main */
+  --radius: 0.5rem;
+
+  /* ── Charts (teal/amber/navy tones) ── */
+  --chart-1: oklch(0.41 0.122 256);
+  --chart-2: oklch(0.58 0.12 165);
+  --chart-3: oklch(0.56 0.128 70);
+  --chart-4: oklch(0.3 0.094 256);
+  --chart-5: oklch(0.22 0.077 253);
+
+  /* ── Sidebar (inherits brand) ── */
+  --sidebar: oklch(0.96 0.008 91);
+  --sidebar-foreground: oklch(0.22 0.004 70);
+  --sidebar-primary: oklch(0.41 0.122 256);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.95 0.022 250);
+  --sidebar-accent-foreground: oklch(0.22 0.077 253);
+  --sidebar-border: oklch(0.84 0.008 91);
+  --sidebar-ring: oklch(0.41 0.122 256);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+  }
+}

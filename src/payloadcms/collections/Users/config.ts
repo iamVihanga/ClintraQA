@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import userAccess from '../../access/user'
 import adminAccess from '../../access/admin'
+import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -13,6 +14,7 @@ export const Users: CollectionConfig = {
   admin: {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
+    group: AdminGroups.Administration,
   },
   auth: true,
   fields: [

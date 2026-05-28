@@ -1,19 +1,40 @@
 import React from 'react'
-import './styles.css'
+import { Metadata } from 'next'
 
-export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
-}
+import './globals.css'
+import { getServerSideURL } from '@/payloadcms/utils/get-url'
+import { mergeOpenGraph } from '@/payloadcms/utils/merge-openGraph'
+import { cn } from '@/lib/utils'
+import { fontClass } from '@/lib/fonts'
+import { AdminBar } from '@/components/AdminBar'
+import { draftMode } from 'next/headers'
+import { Header } from '@/payloadcms/globals/header/Component'
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
+  const { isEnabled } = await draftMode()
 
   return (
-    <html lang="en">
+    <html className={cn('', fontClass)} lang="en" suppressHydrationWarning>
       <body>
-        <main>{children}</main>
+        <AdminBar
+          adminBarProps={{
+            preview: isEnabled,
+          }}
+        />
+
+        <Header />
+        {children}
       </body>
     </html>
   )
+}
+
+export const metadata: Metadata = {
+  metadataBase: new URL(getServerSideURL()),
+  openGraph: mergeOpenGraph(),
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@payloadcms',
+  },
 }
