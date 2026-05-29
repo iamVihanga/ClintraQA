@@ -24,6 +24,7 @@ import { ThemedLayoutBlock } from '@/payloadcms/blocks/layout-blocks/themed/conf
 import { GridLayoutBlock } from '@/payloadcms/blocks/layout-blocks/grid/config'
 import { ApproachStepsBlock } from '@/payloadcms/blocks/approach-steps/config'
 import { ConsultantProfileBlock } from '@/payloadcms/blocks/consultant-profile/config'
+import { CredibilityStripe } from '@/payloadcms/blocks/credibility-strip/config'
 // --- End Blocks ---
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -90,6 +91,7 @@ export const Pages: CollectionConfig<'pages'> = {
               blocks: [
                 HeroBlock,
                 AvailabilityPanelBlock,
+                CredibilityStripe,
                 SectionHeaderBlock,
                 ServiceGridBlock,
                 ThemedLayoutBlock,

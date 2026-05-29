@@ -312,6 +312,7 @@ export interface Page {
   layout: (
     | HeroBlock
     | AvailabilityPanelBlock
+    | CredibilityStripeBlock
     | SectionHeaderBlock
     | ServiceGridBlock
     | ThemedLayoutBlock
@@ -494,6 +495,21 @@ export interface Service {
   slug: string;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CredibilityStripeBlock".
+ */
+export interface CredibilityStripeBlock {
+  credibilities?:
+    | {
+        credibility?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'credibility-stripe';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1172,6 +1188,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         hero?: T | HeroBlockSelect<T>;
         'availability-panel'?: T | AvailabilityPanelBlockSelect<T>;
+        'credibility-stripe'?: T | CredibilityStripeBlockSelect<T>;
         'section-header'?: T | SectionHeaderBlockSelect<T>;
         'service-grid'?: T | ServiceGridBlockSelect<T>;
         'themed-layout'?: T | ThemedLayoutBlockSelect<T>;
@@ -1267,6 +1284,20 @@ export interface HeroBlockSelect<T extends boolean = true> {
  */
 export interface AvailabilityPanelBlockSelect<T extends boolean = true> {
   selectedServices?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CredibilityStripeBlock_select".
+ */
+export interface CredibilityStripeBlockSelect<T extends boolean = true> {
+  credibilities?:
+    | T
+    | {
+        credibility?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
