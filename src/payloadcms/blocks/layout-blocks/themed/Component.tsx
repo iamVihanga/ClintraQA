@@ -7,11 +7,13 @@ import { cn } from '@/lib/utils'
 import { SectionHeader } from '../../section-header/Component'
 import { ApproachSteps } from '../../approach-steps/Component'
 import { GridLayout } from '../grid/Component'
+import { FormBlockComponent } from '../../form/Component'
 
 const blockComponents = {
   'section-header': SectionHeader,
   'approach-steps-block': ApproachSteps,
   'grid-layout': GridLayout,
+  'form-block': FormBlockComponent,
 }
 
 type Props = {

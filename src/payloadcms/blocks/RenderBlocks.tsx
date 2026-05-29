@@ -12,6 +12,7 @@ import { ApproachSteps } from './approach-steps/Component'
 import { ConsultantProfileBlock } from './consultant-profile/Component'
 import { GridLayout } from './layout-blocks/grid/Component'
 import { CredibilityStripe } from './credibility-strip/Component'
+import { FormBlockComponent } from './form/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -23,6 +24,7 @@ const blockComponents = {
   'consultant-profile': ConsultantProfileBlock,
   'grid-layout': GridLayout,
   'credibility-stripe': CredibilityStripe,
+  'form-block': FormBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

@@ -319,6 +319,7 @@ export interface Page {
     | ApproachStepsBlock
     | ConsultantProfileBlock
     | GridLayoutBlock
+    | FormBlock
   )[];
   meta?: {
     title?: string | null;
@@ -558,7 +559,7 @@ export interface ServiceGridBlock {
    */
   showDeliverables?: boolean | null;
   /**
-   * URL that all "Request" buttons link to. Accepts a path (e.g. /contact) or anchor.
+   * Base path for "Request" buttons. Each card appends ?service=<slug> automatically (e.g. /request-support).
    */
   requestUrl?: string | null;
   id?: string | null;
@@ -571,7 +572,7 @@ export interface ServiceGridBlock {
  */
 export interface ThemedLayoutBlock {
   theme: 'secondary' | 'navy';
-  innerBlocks?: (SectionHeaderBlock | ApproachStepsBlock | GridLayoutBlock)[] | null;
+  innerBlocks?: (SectionHeaderBlock | ApproachStepsBlock | GridLayoutBlock | FormBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'themed-layout';
@@ -618,64 +619,16 @@ export interface GridLayoutBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ConsultantProfileBlock".
+ * via the `definition` "FormBlock".
  */
-export interface ConsultantProfileBlock {
+export interface FormBlock {
   /**
-   * Small uppercase label above the heading (e.g. "About")
+   * Select a form created in the Forms collection.
    */
-  sectionLabel?: string | null;
-  photo?: (number | null) | Media;
-  name: string;
-  /**
-   * e.g. "Senior GCP QA Consultant · Independent Consultancy"
-   */
-  credentials?: string | null;
-  bio?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  expertiseAreas?:
-    | {
-        tag: string;
-        id?: string | null;
-      }[]
-    | null;
+  form: number | Form;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'consultant-profile';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
- */
-export interface Redirect {
-  id: number;
-  /**
-   * You will need to rebuild the website when changing this field.
-   */
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
-    url?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
+  blockType: 'form-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -848,6 +801,67 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConsultantProfileBlock".
+ */
+export interface ConsultantProfileBlock {
+  /**
+   * Small uppercase label above the heading (e.g. "About")
+   */
+  sectionLabel?: string | null;
+  photo?: (number | null) | Media;
+  name: string;
+  /**
+   * e.g. "Senior GCP QA Consultant · Independent Consultancy"
+   */
+  credentials?: string | null;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  expertiseAreas?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'consultant-profile';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  /**
+   * You will need to rebuild the website when changing this field.
+   */
+  from: string;
+  to?: {
+    type?: ('reference' | 'custom') | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1195,6 +1209,7 @@ export interface PagesSelect<T extends boolean = true> {
         'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
         'consultant-profile'?: T | ConsultantProfileBlockSelect<T>;
         'grid-layout'?: T | GridLayoutBlockSelect<T>;
+        'form-block'?: T | FormBlockSelect<T>;
       };
   meta?:
     | T
@@ -1351,6 +1366,7 @@ export interface ThemedLayoutBlockSelect<T extends boolean = true> {
         'section-header'?: T | SectionHeaderBlockSelect<T>;
         'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
         'grid-layout'?: T | GridLayoutBlockSelect<T>;
+        'form-block'?: T | FormBlockSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -1376,6 +1392,15 @@ export interface GridLayoutBlockSelect<T extends boolean = true> {
         content?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock_select".
+ */
+export interface FormBlockSelect<T extends boolean = true> {
+  form?: T;
   id?: T;
   blockName?: T;
 }

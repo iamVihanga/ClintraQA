@@ -43,10 +43,10 @@ export const ServiceGridBlock: Block = {
       name: 'requestUrl',
       type: 'text',
       label: 'CTA Destination URL',
-      defaultValue: '/contact',
+      defaultValue: '/request-support',
       admin: {
         description:
-          'URL that all "Request" buttons link to. Accepts a path (e.g. /contact) or anchor.',
+          'Base path for "Request" buttons. Each card appends ?service=<slug> automatically (e.g. /request-support).',
       },
     },
   ],
