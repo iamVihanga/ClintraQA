@@ -17,6 +17,15 @@ import { AdminGroups } from '@/payloadcms/utils/admin-groups'
 
 // --- Blocks ---
 import { HeroBlock } from '@/payloadcms/blocks/hero/config'
+import { AvailabilityPanelBlock } from '@/payloadcms/blocks/availability-panel/config'
+import { SectionHeaderBlock } from '@/payloadcms/blocks/section-header/config'
+import { ServiceGridBlock } from '@/payloadcms/blocks/service-grid/config'
+import { ThemedLayoutBlock } from '@/payloadcms/blocks/layout-blocks/themed/config'
+import { GridLayoutBlock } from '@/payloadcms/blocks/layout-blocks/grid/config'
+import { ApproachStepsBlock } from '@/payloadcms/blocks/approach-steps/config'
+import { ConsultantProfileBlock } from '@/payloadcms/blocks/consultant-profile/config'
+import { CredibilityStripe } from '@/payloadcms/blocks/credibility-strip/config'
+import { FormBlock } from '@/payloadcms/blocks/form/config'
 // --- End Blocks ---
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -80,7 +89,18 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroBlock],
+              blocks: [
+                HeroBlock,
+                AvailabilityPanelBlock,
+                CredibilityStripe,
+                SectionHeaderBlock,
+                ServiceGridBlock,
+                ThemedLayoutBlock,
+                ApproachStepsBlock,
+                ConsultantProfileBlock,
+                GridLayoutBlock,
+                FormBlock,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,

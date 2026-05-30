@@ -22,6 +22,7 @@ import { ChecklistFeatureClient as ChecklistFeatureClient_e70f5e05f09f93e00b997e
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { RelationshipFeatureClient as RelationshipFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { FolderTableCell as FolderTableCell_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 import { FolderField as FolderField_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 import { AnimativeWordRowLabel as AnimativeWordRowLabel_f0bbc00b0bc9cdde84e39f91914f145d } from '@/payloadcms/blocks/hero/RowLabel'
@@ -36,6 +37,7 @@ import { RowLabel as RowLabel_7319cdcf4b4450171391f1540ecbd9c0 } from '@/payload
 import { ReferencesRowLabel as ReferencesRowLabel_a4cfbd3a849762cd141190e0318ff89a } from '@/payloadcms/globals/footer/RowLabel'
 import { LegalReferencesRowLabel as LegalReferencesRowLabel_a4cfbd3a849762cd141190e0318ff89a } from '@/payloadcms/globals/footer/RowLabel'
 import { SocialMediaLinksRowLabel as SocialMediaLinksRowLabel_fc4006ca86c32e15635b0b2338cb1a4c } from '@/payloadcms/globals/contact-info/RowLabel'
+import { ApproachStepsRowLabel as ApproachStepsRowLabel_032e89bb4b0043b15be722f7e0f2b0eb } from '@/payloadcms/globals/approach-steps/RowLabel'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -64,6 +66,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#RelationshipFeatureClient": RelationshipFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#LinkFeatureClient": LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/next/rsc#FolderTableCell": FolderTableCell_f9c02e79a4aed9a3924487c0cd4cafb1,
   "@payloadcms/next/rsc#FolderField": FolderField_f9c02e79a4aed9a3924487c0cd4cafb1,
   "@/payloadcms/blocks/hero/RowLabel#AnimativeWordRowLabel": AnimativeWordRowLabel_f0bbc00b0bc9cdde84e39f91914f145d,
@@ -78,5 +81,6 @@ export const importMap = {
   "@/payloadcms/globals/footer/RowLabel#ReferencesRowLabel": ReferencesRowLabel_a4cfbd3a849762cd141190e0318ff89a,
   "@/payloadcms/globals/footer/RowLabel#LegalReferencesRowLabel": LegalReferencesRowLabel_a4cfbd3a849762cd141190e0318ff89a,
   "@/payloadcms/globals/contact-info/RowLabel#SocialMediaLinksRowLabel": SocialMediaLinksRowLabel_fc4006ca86c32e15635b0b2338cb1a4c,
+  "@/payloadcms/globals/approach-steps/RowLabel#ApproachStepsRowLabel": ApproachStepsRowLabel_032e89bb4b0043b15be722f7e0f2b0eb,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

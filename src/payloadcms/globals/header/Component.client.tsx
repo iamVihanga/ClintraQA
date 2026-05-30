@@ -37,9 +37,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, logo, siteName
               {...link}
               appearance="inline"
               className={cn(
-                'text-sm font-medium text-warm-gray-600 transition-colors hover:text-navy',
+                'text-sm font-medium text-warm-gray-600 transition-colors hover:text-navy-main/80',
                 {
-                  'text-navy':
+                  'text-navy-main':
                     (link.type === 'reference' &&
                     typeof link.reference?.value === 'object' &&
                     link.reference.value.slug
@@ -60,7 +60,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, logo, siteName
           <CMSLink
             {...data.callToAction.link}
             appearance="default"
-            className="shrink-0 h-11 px-4"
+            className="shrink-0 h-11 px-6"
           />
         )}
       </div>

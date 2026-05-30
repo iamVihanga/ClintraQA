@@ -9,7 +9,7 @@ export const revalidateContactInfo: GlobalAfterChangeHook = ({
   if (!context.disableRevalidate) {
     payload.logger.info(`Revalidating contact info`)
 
-    revalidateTag('global_contact_info', 'max')
+    revalidateTag('global_contact-info', 'max')
   }
 
   return doc

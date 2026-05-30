@@ -111,6 +111,7 @@ export interface Config {
     header: Header;
     footer: Footer;
     'contact-info': ContactInfo;
+    approachSteps: ApproachStep;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
@@ -118,6 +119,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    approachSteps: ApproachStepsSelect<false> | ApproachStepsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -307,7 +309,18 @@ export interface FolderInterface {
 export interface Page {
   id: number;
   title: string;
-  layout: HeroBlock[];
+  layout: (
+    | HeroBlock
+    | AvailabilityPanelBlock
+    | CredibilityStripeBlock
+    | SectionHeaderBlock
+    | ServiceGridBlock
+    | ThemedLayoutBlock
+    | ApproachStepsBlock
+    | ConsultantProfileBlock
+    | GridLayoutBlock
+    | FormBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -406,6 +419,16 @@ export interface HeroBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AvailabilityPanelBlock".
+ */
+export interface AvailabilityPanelBlock {
+  selectedServices?: (number | Service)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'availability-panel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
  */
 export interface Service {
@@ -476,24 +499,136 @@ export interface Service {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
+ * via the `definition` "CredibilityStripeBlock".
  */
-export interface Redirect {
-  id: number;
-  /**
-   * You will need to rebuild the website when changing this field.
-   */
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
-    url?: string | null;
+export interface CredibilityStripeBlock {
+  credibilities?:
+    | {
+        credibility?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'credibility-stripe';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionHeaderBlock".
+ */
+export interface SectionHeaderBlock {
+  label?: string | null;
+  title?: string | null;
+  subtitle?: string | null;
+  cta?: {
+    enabled?: boolean | null;
+    link?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?: {
+        relationTo: 'pages';
+        value: number | Page;
+      } | null;
+      url?: string | null;
+      label: string;
+      /**
+       * Choose how the link should be rendered.
+       */
+      appearance?: ('default' | 'outline') | null;
+    };
   };
-  updatedAt: string;
-  createdAt: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section-header';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceGridBlock".
+ */
+export interface ServiceGridBlock {
+  /**
+   * When enabled, all visible services are displayed. Uncheck to handpick specific services.
+   */
+  showAll?: boolean | null;
+  /**
+   * Choose which services appear in this grid.
+   */
+  selectedServices?: (number | Service)[] | null;
+  /**
+   * Display deliverable tags on each service card.
+   */
+  showDeliverables?: boolean | null;
+  /**
+   * Base path for "Request" buttons. Each card appends ?service=<slug> automatically (e.g. /request-support).
+   */
+  requestUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'service-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemedLayoutBlock".
+ */
+export interface ThemedLayoutBlock {
+  theme: 'secondary' | 'navy';
+  innerBlocks?: (SectionHeaderBlock | ApproachStepsBlock | GridLayoutBlock | FormBlock)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'themed-layout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ApproachStepsBlock".
+ */
+export interface ApproachStepsBlock {
+  theme?: ('light' | 'dark') | null;
+  bottomPadding?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'approach-steps-block';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GridLayoutBlock".
+ */
+export interface GridLayoutBlock {
+  cards?:
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'grid-layout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock".
+ */
+export interface FormBlock {
+  /**
+   * Select a form created in the Forms collection.
+   */
+  form: number | Form;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'form-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -666,6 +801,67 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConsultantProfileBlock".
+ */
+export interface ConsultantProfileBlock {
+  /**
+   * Small uppercase label above the heading (e.g. "About")
+   */
+  sectionLabel?: string | null;
+  photo?: (number | null) | Media;
+  name: string;
+  /**
+   * e.g. "Senior GCP QA Consultant · Independent Consultancy"
+   */
+  credentials?: string | null;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  expertiseAreas?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'consultant-profile';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  /**
+   * You will need to rebuild the website when changing this field.
+   */
+  from: string;
+  to?: {
+    type?: ('reference' | 'custom') | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1005,6 +1201,15 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         hero?: T | HeroBlockSelect<T>;
+        'availability-panel'?: T | AvailabilityPanelBlockSelect<T>;
+        'credibility-stripe'?: T | CredibilityStripeBlockSelect<T>;
+        'section-header'?: T | SectionHeaderBlockSelect<T>;
+        'service-grid'?: T | ServiceGridBlockSelect<T>;
+        'themed-layout'?: T | ThemedLayoutBlockSelect<T>;
+        'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
+        'consultant-profile'?: T | ConsultantProfileBlockSelect<T>;
+        'grid-layout'?: T | GridLayoutBlockSelect<T>;
+        'form-block'?: T | FormBlockSelect<T>;
       };
   meta?:
     | T
@@ -1085,6 +1290,136 @@ export interface HeroBlockSelect<T extends boolean = true> {
             };
       };
   heroImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AvailabilityPanelBlock_select".
+ */
+export interface AvailabilityPanelBlockSelect<T extends boolean = true> {
+  selectedServices?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CredibilityStripeBlock_select".
+ */
+export interface CredibilityStripeBlockSelect<T extends boolean = true> {
+  credibilities?:
+    | T
+    | {
+        credibility?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionHeaderBlock_select".
+ */
+export interface SectionHeaderBlockSelect<T extends boolean = true> {
+  label?: T;
+  title?: T;
+  subtitle?: T;
+  cta?:
+    | T
+    | {
+        enabled?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceGridBlock_select".
+ */
+export interface ServiceGridBlockSelect<T extends boolean = true> {
+  showAll?: T;
+  selectedServices?: T;
+  showDeliverables?: T;
+  requestUrl?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemedLayoutBlock_select".
+ */
+export interface ThemedLayoutBlockSelect<T extends boolean = true> {
+  theme?: T;
+  innerBlocks?:
+    | T
+    | {
+        'section-header'?: T | SectionHeaderBlockSelect<T>;
+        'approach-steps-block'?: T | ApproachStepsBlockSelect<T>;
+        'grid-layout'?: T | GridLayoutBlockSelect<T>;
+        'form-block'?: T | FormBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ApproachStepsBlock_select".
+ */
+export interface ApproachStepsBlockSelect<T extends boolean = true> {
+  theme?: T;
+  bottomPadding?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GridLayoutBlock_select".
+ */
+export interface GridLayoutBlockSelect<T extends boolean = true> {
+  cards?:
+    | T
+    | {
+        content?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock_select".
+ */
+export interface FormBlockSelect<T extends boolean = true> {
+  form?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConsultantProfileBlock_select".
+ */
+export interface ConsultantProfileBlockSelect<T extends boolean = true> {
+  sectionLabel?: T;
+  photo?: T;
+  name?: T;
+  credentials?: T;
+  bio?: T;
+  expertiseAreas?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1606,6 +1941,23 @@ export interface ContactInfo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "approachSteps".
+ */
+export interface ApproachStep {
+  id: number;
+  steps?:
+    | {
+        number?: string | null;
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -1773,6 +2125,23 @@ export interface ContactInfoSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "approachSteps_select".
+ */
+export interface ApproachStepsSelect<T extends boolean = true> {
+  steps?:
+    | T
+    | {
+        number?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -1797,6 +2166,35 @@ export interface TaskSchedulePublish {
     user?: (number | null) | User;
   };
   output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichLinkBlock".
+ */
+export interface RichLinkBlock {
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'rich-link';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialLinksBlock".
+ */
+export interface SocialLinksBlock {
+  divider?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'social-links';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
