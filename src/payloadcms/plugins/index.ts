@@ -9,6 +9,7 @@ import type { Page } from '@/payload-types'
 import { revalidateRedirects } from '../hooks/revalidate-redirects'
 import { getServerSideURL } from '../utils/get-url'
 import { AdminGroups } from '../utils/admin-groups'
+import { beforeEmail } from '../utils/form-config'
 
 // -------- SEO Plugin Helpers --------
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
@@ -62,6 +63,9 @@ export const plugins: Plugin[] = [
     fields: {
       payment: false,
     },
+    redirectRelationships: ['pages'],
+    beforeEmail: beforeEmail,
+    defaultToEmail: process?.env?.ZEPTOMAIL_TO_EMAIL || '',
     formSubmissionOverrides: {
       admin: {
         group: AdminGroups.FormsAndSubmissions,

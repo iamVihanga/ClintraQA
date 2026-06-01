@@ -17,6 +17,7 @@ import { Header } from './payloadcms/globals/header/config'
 import { Footer } from './payloadcms/globals/footer/config'
 import { ContactInfo } from './payloadcms/globals/contact-info/config'
 import { ApproachSteps } from './payloadcms/globals/approach-steps/config'
+import zeptomailAdapter from './payloadcms/utils/adapters/email'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -64,6 +65,8 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
+  // --- Email Adapter ---
+  email: zeptomailAdapter(),
 
   // --- Additional Configurations ---
   editor: defaultLexicalEditor,

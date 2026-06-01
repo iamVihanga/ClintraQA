@@ -145,7 +145,12 @@ export function RequestSupportForm({ form, services }: Props) {
   const rows = groupIntoRows(form.fields ?? [])
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5 pr-96">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="space-y-5 mx-auto"
+      style={{ maxWidth: 600 }}
+    >
       {/* Limited availability notice */}
       {isLimited && (
         <div className="rounded-lg border border-amber/40 bg-amber-light/60 px-4 py-3 text-sm text-amber-dark">
