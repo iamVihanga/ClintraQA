@@ -14,24 +14,33 @@ export async function FormBlockComponent({ form }: FormBlockProps) {
 
   const formId = typeof form === 'number' ? form : form.id
 
-  const [formDoc, servicesResult] = await Promise.all([
-    payload.findByID({
-      collection: 'forms',
-      id: formId,
-      depth: 0,
-    }),
-    payload.find({
-      collection: 'services',
-      depth: 0,
-      limit: 100,
-      pagination: false,
-      where: {
-        and: [{ status: { in: ['open', 'limited'] } }, { visible: { equals: true } }],
-      },
-    }),
-  ])
+  let formDoc: Form | null = null
+  let services: Service[] = []
 
-  const services = servicesResult.docs as Service[]
+  try {
+    const [formResult, servicesResult] = await Promise.all([
+      payload.findByID({
+        collection: 'forms',
+        id: formId,
+        depth: 0,
+      }),
+      payload.find({
+        collection: 'services',
+        depth: 0,
+        limit: 100,
+        pagination: false,
+        where: {
+          and: [{ status: { in: ['open', 'limited'] } }, { visible: { equals: true } }],
+        },
+      }),
+    ])
+    formDoc = formResult
+    services = servicesResult.docs as Service[]
+  } catch {
+    return null
+  }
+
+  if (!formDoc) return null
 
   return (
     <div className="mx-auto w-full max-w-2xl" style={{ maxWidth: '1160px' }}>
