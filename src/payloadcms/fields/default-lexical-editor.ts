@@ -27,6 +27,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import { RichLinkBlock } from '../blocks/lexical-blocks/rich-link/config'
 import { SocialLinksBlock } from '../blocks/lexical-blocks/social-links/config'
+import { MediaBlock } from '../blocks/lexical-blocks/media/config'
 
 export const defaultLexicalEditor = lexicalEditor({
   features: [
@@ -94,7 +95,7 @@ export const defaultLexicalEditor = lexicalEditor({
 
     // Blocks
     BlocksFeature({
-      blocks: [RichLinkBlock, SocialLinksBlock],
+      blocks: [RichLinkBlock, SocialLinksBlock, MediaBlock],
     }),
   ],
 })

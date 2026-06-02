@@ -4,10 +4,6 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-import { Users } from './payloadcms/collections/Users/config'
-import { Media } from './payloadcms/collections/Media/config'
-import { Pages } from './payloadcms/collections/Pages/config'
-import { Services } from './payloadcms/collections/Services/config'
 import { defaultLexicalEditor } from './payloadcms/fields/default-lexical-editor'
 import { getServerSideURL } from './payloadcms/utils/get-url'
 import { plugins } from './payloadcms/plugins'
@@ -18,6 +14,13 @@ import { Footer } from './payloadcms/globals/footer/config'
 import { ContactInfo } from './payloadcms/globals/contact-info/config'
 import { ApproachSteps } from './payloadcms/globals/approach-steps/config'
 import zeptomailAdapter from './payloadcms/utils/adapters/email'
+
+import { Users } from './payloadcms/collections/Users/config'
+import { Media } from './payloadcms/collections/Media/config'
+import { Pages } from './payloadcms/collections/Pages/config'
+import { Services } from './payloadcms/collections/Services/config'
+import { Resources } from './payloadcms/collections/Resources/config'
+import { ResourceCategories } from './payloadcms/collections/Resources/Categories/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -54,7 +57,7 @@ export default buildConfig({
   },
 
   // --- Database Collection Injections ---
-  collections: [Users, Media, Pages, Services],
+  collections: [Users, Media, Pages, Services, Resources, ResourceCategories],
 
   // --- Globals ---
   globals: [SiteSettings, AvailabilityNotices, Header, Footer, ContactInfo, ApproachSteps],
