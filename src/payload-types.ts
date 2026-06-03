@@ -324,6 +324,7 @@ export interface Page {
     | ConsultantProfileBlock
     | GridLayoutBlock
     | FormBlock
+    | ResourcesGridBlock
   )[];
   meta?: {
     title?: string | null;
@@ -855,6 +856,23 @@ export interface ConsultantProfileBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResourcesGridBlock".
+ */
+export interface ResourcesGridBlock {
+  /**
+   * When enabled, all visible resources are displayed. Uncheck to handpick specific resources.
+   */
+  showAll?: boolean | null;
+  /**
+   * Choose which resources appear in this grid.
+   */
+  selectedResources?: (number | Resource)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'resources-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resources".
  */
 export interface Resource {
@@ -1293,6 +1311,7 @@ export interface PagesSelect<T extends boolean = true> {
         'consultant-profile'?: T | ConsultantProfileBlockSelect<T>;
         'grid-layout'?: T | GridLayoutBlockSelect<T>;
         'form-block'?: T | FormBlockSelect<T>;
+        'resources-grid'?: T | ResourcesGridBlockSelect<T>;
       };
   meta?:
     | T
@@ -1503,6 +1522,16 @@ export interface ConsultantProfileBlockSelect<T extends boolean = true> {
         tag?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResourcesGridBlock_select".
+ */
+export interface ResourcesGridBlockSelect<T extends boolean = true> {
+  showAll?: T;
+  selectedResources?: T;
   id?: T;
   blockName?: T;
 }

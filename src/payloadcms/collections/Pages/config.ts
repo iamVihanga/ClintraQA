@@ -26,6 +26,7 @@ import { ApproachStepsBlock } from '@/payloadcms/blocks/approach-steps/config'
 import { ConsultantProfileBlock } from '@/payloadcms/blocks/consultant-profile/config'
 import { CredibilityStripe } from '@/payloadcms/blocks/credibility-strip/config'
 import { FormBlock } from '@/payloadcms/blocks/form/config'
+import { ResourcesGridBlock } from '@/payloadcms/blocks/resources-grid/config'
 // --- End Blocks ---
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -100,6 +101,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ConsultantProfileBlock,
                 GridLayoutBlock,
                 FormBlock,
+                ResourcesGridBlock,
               ],
               required: true,
               admin: {

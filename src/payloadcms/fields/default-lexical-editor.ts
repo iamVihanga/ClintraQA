@@ -61,7 +61,7 @@ export const defaultLexicalEditor = lexicalEditor({
 
     // Links
     LinkFeature({
-      enabledCollections: ['pages', 'services'],
+      enabledCollections: ['pages', 'services', 'resources'],
       fields: ({ defaultFields }) => {
         const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
           if ('name' in field && field.name === 'url') return false

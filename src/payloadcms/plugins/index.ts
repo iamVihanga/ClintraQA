@@ -5,18 +5,18 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 
-import type { Page } from '@/payload-types'
+import type { Page, Resource } from '@/payload-types'
 import { revalidateRedirects } from '../hooks/revalidate-redirects'
 import { getServerSideURL } from '../utils/get-url'
 import { AdminGroups } from '../utils/admin-groups'
 import { beforeEmail } from '../utils/form-config'
 
 // -------- SEO Plugin Helpers --------
-const generateTitle: GenerateTitle<Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Page | Resource> = ({ doc }) => {
   return doc?.title ? `${doc.title} | ClintraQA` : 'ClintraQA - GCP QA & TMF Audit Consultancy'
 }
 
-const generateURL: GenerateURL<Page> = ({ doc }) => {
+const generateURL: GenerateURL<Page | Resource> = ({ doc }) => {
   const url = getServerSideURL()
 
   return doc?.slug ? `${url}/${doc.slug}` : url
