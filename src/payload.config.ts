@@ -13,6 +13,7 @@ import { Header } from './payloadcms/globals/header/config'
 import { Footer } from './payloadcms/globals/footer/config'
 import { ContactInfo } from './payloadcms/globals/contact-info/config'
 import { ApproachSteps } from './payloadcms/globals/approach-steps/config'
+import { Faq } from './payloadcms/globals/faq/config'
 import zeptomailAdapter from './payloadcms/utils/adapters/email'
 
 import { Users } from './payloadcms/collections/Users/config'
@@ -60,7 +61,7 @@ export default buildConfig({
   collections: [Users, Media, Pages, Services, Resources, ResourceCategories],
 
   // --- Globals ---
-  globals: [SiteSettings, AvailabilityNotices, Header, Footer, ContactInfo, ApproachSteps],
+  globals: [SiteSettings, AvailabilityNotices, Header, Footer, ContactInfo, ApproachSteps, Faq],
 
   // --- Database Adapter ---
   db: postgresAdapter({
