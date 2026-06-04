@@ -66,7 +66,10 @@ const ease = [0.22, 1, 0.36, 1] as const
 // ─── Grid Client ──────────────────────────────────────────────────────────────
 export function ResourcesGridClient({ resources, className }: ResourcesGridClientProps) {
   return (
-    <div className={cn('mx-auto pb-14 pt-2', className)} style={{ maxWidth: '1160px' }}>
+    <div
+      className={cn('mx-auto pb-14 pt-2 px-6 sm:px-0', className)}
+      style={{ maxWidth: '1160px' }}
+    >
       {/* Card grid */}
       <motion.div layout className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">

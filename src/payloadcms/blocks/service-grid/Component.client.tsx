@@ -151,7 +151,10 @@ export function ServiceGridClient({
   }
 
   return (
-    <div className={cn('mx-auto pb-14 pt-2', className)} style={{ maxWidth: '1160px' }}>
+    <div
+      className={cn('mx-auto pb-14 pt-2 px-6 sm:px-0', className)}
+      style={{ maxWidth: '1160px' }}
+    >
       {/* Filter pills */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}

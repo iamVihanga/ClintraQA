@@ -31,12 +31,12 @@ export function FaqClient({ items, className, theme, label, heading, subtitle }:
 
   return (
     <section
-      className={cn('px-6 py-22', className, {
+      className={cn('py-14 md:py-22', className, {
         'bg-navy': isDark,
         'bg-white': !isDark,
       })}
     >
-      <div className="mx-auto" style={{ maxWidth: '1160px' }}>
+      <div className="mx-auto px-6 sm:px-0" style={{ maxWidth: '1160px' }}>
         {/* Section header */}
         {(label || heading || subtitle) && (
           <div className="mb-14">
