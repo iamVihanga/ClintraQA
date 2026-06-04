@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import NextLink from 'next/link'
 import React from 'react'
 
-import type { Page } from '@/payload-types'
+import type { Page, Resource } from '@/payload-types'
 
 type ButtonVariant = VariantProps<typeof buttonVariants>['variant']
 type ButtonSize = VariantProps<typeof buttonVariants>['size']
@@ -16,8 +16,8 @@ export type CMSLinkType = {
   label?: string | null
   newTab?: boolean | null
   reference?: {
-    relationTo: 'pages'
-    value: Page | string | number
+    relationTo: 'pages' | 'resources'
+    value: Page | Resource | string | number
   } | null
   size?: ButtonSize | null
   type?: 'custom' | 'reference' | null
