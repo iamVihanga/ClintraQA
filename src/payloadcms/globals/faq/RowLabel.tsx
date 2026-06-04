@@ -1,18 +1,12 @@
 'use client'
 import React from 'react'
+import { Faq } from '@/payload-types'
 import { type RowLabelProps, useRowLabel } from '@payloadcms/ui'
 
-type FaqItem = {
-  question?: string | null
-  answer?: string | null
-  category?: string | null
-  id?: string | null
-}
-
 export const FaqRowLabel: React.FC<RowLabelProps> = () => {
-  const { data, rowNumber } = useRowLabel<FaqItem>()
-  const n = String((rowNumber ?? 0) + 1).padStart(2, '0')
-  const label = data?.question ? `Q${n}: ${data.question}` : `FAQ Item ${n}`
+  const { data, rowNumber } = useRowLabel<NonNullable<Faq['items']>[number]>()
+
+  const label = data?.question ? `Q ${rowNumber} : ${data?.question}` : 'Row'
 
   return <div>{label}</div>
 }

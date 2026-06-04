@@ -7,6 +7,7 @@ import { revalidateFaq } from './hooks/revalidate-faq'
 
 export const Faq: GlobalConfig = {
   slug: 'faq',
+  label: 'FAQ',
   admin: {
     group: AdminGroups.ContentManagement,
   },
@@ -36,8 +37,7 @@ export const Faq: GlobalConfig = {
           type: 'text',
           label: 'Category',
           admin: {
-            description:
-              'Optional. Group items by category for selective display in blocks.',
+            description: 'Optional. Group items by category for selective display in blocks.',
           },
         },
       ],
