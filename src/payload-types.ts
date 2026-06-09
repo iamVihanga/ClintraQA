@@ -640,6 +640,10 @@ export interface ServiceGridBlock {
    */
   showAll?: boolean | null;
   /**
+   * Display status filter buttons (All, Open, Limited, Closed) above the grid.
+   */
+  showFilterOptions?: boolean | null;
+  /**
    * Choose which services appear in this grid.
    */
   selectedServices?: (number | Service)[] | null;
@@ -1489,6 +1493,7 @@ export interface SectionHeaderBlockSelect<T extends boolean = true> {
  */
 export interface ServiceGridBlockSelect<T extends boolean = true> {
   showAll?: T;
+  showFilterOptions?: T;
   selectedServices?: T;
   showDeliverables?: T;
   requestUrl?: T;

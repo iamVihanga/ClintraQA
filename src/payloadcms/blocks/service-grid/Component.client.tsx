@@ -4,17 +4,15 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'motion/react'
 
-import type { Service } from '@/payload-types'
+import type { Service, ServiceGridBlock as ServiceGridBlockProps } from '@/payload-types'
 import { cn } from '@/lib/utils'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type FilterOption = 'all' | 'open' | 'limited' | 'closed'
 
-type ServiceGridClientProps = {
+type ServiceGridClientProps = ServiceGridBlockProps & {
   services: Service[]
-  showDeliverables: boolean
-  requestUrl: string
   className?: string
 }
 
@@ -136,6 +134,7 @@ export function ServiceGridClient({
   services,
   showDeliverables,
   requestUrl,
+  showFilterOptions,
   className,
 }: ServiceGridClientProps) {
   const [activeFilter, setActiveFilter] = useState<FilterOption>('all')
@@ -156,39 +155,41 @@ export function ServiceGridClient({
       style={{ maxWidth: '1160px' }}
     >
       {/* Filter pills */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease }}
-        className="mb-8 flex flex-wrap items-center gap-2"
-      >
-        {(['all', 'open', 'limited', 'closed'] as const).map((f) => {
-          const isActive = activeFilter === f
-          return (
-            <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={cn(
-                'inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
-                isActive
-                  ? 'bg-navy text-white'
-                  : 'bg-warm-gray-100 text-navy-main hover:bg-warm-gray-200',
-              )}
-            >
-              {FILTER_LABELS[f]}
-              <span
+      {showFilterOptions && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease }}
+          className="mb-8 flex flex-wrap items-center gap-2"
+        >
+          {(['all', 'open', 'limited', 'closed'] as const).map((f) => {
+            const isActive = activeFilter === f
+            return (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
                 className={cn(
-                  'rounded-full px-1.5 py-0.5 text-xs font-semibold',
-                  isActive ? 'bg-white/20 text-white' : 'bg-warm-gray-200 text-warm-gray-600',
+                  'inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
+                  isActive
+                    ? 'bg-navy text-white'
+                    : 'bg-warm-gray-100 text-navy-main hover:bg-warm-gray-200',
                 )}
               >
-                {counts[f]}
-              </span>
-            </button>
-          )
-        })}
-      </motion.div>
+                {FILTER_LABELS[f]}
+                <span
+                  className={cn(
+                    'rounded-full px-1.5 py-0.5 text-xs font-semibold',
+                    isActive ? 'bg-white/20 text-white' : 'bg-warm-gray-200 text-warm-gray-600',
+                  )}
+                >
+                  {counts[f]}
+                </span>
+              </button>
+            )
+          })}
+        </motion.div>
+      )}
 
       {/* Card grid */}
       <motion.div layout className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -205,8 +206,8 @@ export function ServiceGridClient({
             >
               <ServiceCard
                 service={service}
-                showDeliverables={showDeliverables}
-                requestUrl={requestUrl}
+                showDeliverables={showDeliverables!}
+                requestUrl={requestUrl!}
               />
             </motion.div>
           ))}

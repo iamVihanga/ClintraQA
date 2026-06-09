@@ -19,6 +19,15 @@ export const ServiceGridBlock: Block = {
       },
     },
     {
+      name: 'showFilterOptions',
+      type: 'checkbox',
+      label: 'Show Filter Options',
+      defaultValue: true,
+      admin: {
+        description: 'Display status filter buttons (All, Open, Limited, Closed) above the grid.',
+      },
+    },
+    {
       name: 'selectedServices',
       label: 'Services to Display',
       type: 'relationship',
