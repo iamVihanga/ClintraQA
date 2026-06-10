@@ -1,4 +1,3 @@
-import React from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
@@ -31,6 +30,7 @@ export async function ServiceGrid({
   showDeliverables,
   requestUrl,
   className,
+  ...props
 }: ServiceGridBlockProps) {
   let services: Service[]
 
@@ -44,11 +44,10 @@ export async function ServiceGrid({
 
   return (
     <ServiceGridClient
-      blockType="service-grid"
       services={services}
-      showDeliverables={showDeliverables ?? true}
-      requestUrl={requestUrl ?? '/contact'}
+      requestUrl={requestUrl ?? '/request-support'}
       className={className}
+      {...props}
     />
   )
 }

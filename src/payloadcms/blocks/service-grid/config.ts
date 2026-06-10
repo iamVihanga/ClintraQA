@@ -28,6 +28,16 @@ export const ServiceGridBlock: Block = {
       },
     },
     {
+      name: 'showStatusBadge',
+      type: 'checkbox',
+      label: 'Show Status Badge',
+      defaultValue: true,
+      admin: {
+        description:
+          'Display a badge indicating the status of each service card in grid (All, Open, Limited, Closed).',
+      },
+    },
+    {
       name: 'selectedServices',
       label: 'Services to Display',
       type: 'relationship',

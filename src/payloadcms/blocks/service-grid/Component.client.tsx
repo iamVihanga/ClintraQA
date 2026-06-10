@@ -20,6 +20,7 @@ type ServiceCardProps = {
   service: Service
   showDeliverables: boolean
   requestUrl: string
+  showStatusBadge?: boolean
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -53,7 +54,7 @@ const FILTER_LABELS: Record<FilterOption, string> = {
 
 // ─── Service Card ─────────────────────────────────────────────────────────────
 
-function ServiceCard({ service, showDeliverables, requestUrl }: ServiceCardProps) {
+function ServiceCard({ service, showDeliverables, requestUrl, showStatusBadge }: ServiceCardProps) {
   const status = (service.status ?? 'closed') as keyof typeof STATUS_CONFIG
   const config = STATUS_CONFIG[status] ?? STATUS_CONFIG.closed
   const deliverables = service.deliverables ?? []
@@ -67,14 +68,16 @@ function ServiceCard({ service, showDeliverables, requestUrl }: ServiceCardProps
         {/* Title + status badge */}
         <div className="mb-3 flex items-start justify-between gap-3">
           <h3 className="font-heading text-xl leading-snug text-navy">{service.title}</h3>
-          <span
-            className={cn(
-              'shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
-              config.badgeClass,
-            )}
-          >
-            {config.label}
-          </span>
+          {showStatusBadge && (
+            <span
+              className={cn(
+                'shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
+                config.badgeClass,
+              )}
+            >
+              {config.label}
+            </span>
+          )}
         </div>
 
         {/* Short description */}
@@ -135,6 +138,7 @@ export function ServiceGridClient({
   showDeliverables,
   requestUrl,
   showFilterOptions,
+  showStatusBadge,
   className,
 }: ServiceGridClientProps) {
   const [activeFilter, setActiveFilter] = useState<FilterOption>('all')
@@ -208,6 +212,7 @@ export function ServiceGridClient({
                 service={service}
                 showDeliverables={showDeliverables!}
                 requestUrl={requestUrl!}
+                showStatusBadge={showStatusBadge || false}
               />
             </motion.div>
           ))}
