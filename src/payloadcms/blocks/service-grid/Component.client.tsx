@@ -112,14 +112,14 @@ function ServiceCard({ service, showDeliverables, requestUrl }: ServiceCardProps
               href={`${requestUrl}?service=${service.slug}`}
               className="flex w-full items-center justify-center rounded-lg border border-amber bg-amber-light px-4 py-2.5 text-sm font-medium text-amber-dark transition-colors hover:bg-amber hover:text-white"
             >
-              {`Choose Service (Limited availability)`}
+              {`Select (Limited availability)`}
             </Link>
           ) : (
             <Link
               href={`${requestUrl}?service=${service.slug}`}
               className="flex w-full items-center justify-center rounded-lg bg-navy px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-mid"
             >
-              {`Choose Service`}
+              {`Select Service`}
             </Link>
           )}
         </div>
