@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'motion/react'
 
 import type { Service, ServiceGridBlock as ServiceGridBlockProps } from '@/payload-types'
@@ -15,6 +14,8 @@ type ServiceGridClientProps = ServiceGridBlockProps & {
   services: Service[]
   className?: string
   selectAction?: (service: Service) => void
+  /** Slugs of currently selected services — drives the checked visual state on cards */
+  selectedSlugs?: Set<string>
 }
 
 type ServiceCardProps = {
@@ -22,6 +23,7 @@ type ServiceCardProps = {
   showDeliverables: boolean
   showStatusBadge?: boolean
   isSelectable?: boolean
+  isSelected?: boolean
   selectAction?: (service: Service) => void
 }
 
@@ -61,25 +63,66 @@ function ServiceCard({
   showDeliverables,
   showStatusBadge,
   isSelectable,
+  isSelected,
   selectAction,
 }: ServiceCardProps) {
   const status = (service.status ?? 'closed') as keyof typeof STATUS_CONFIG
   const config = STATUS_CONFIG[status] ?? STATUS_CONFIG.closed
   const deliverables = service.deliverables ?? []
+  const isClosed = status === 'closed'
 
   return (
-    <div className="relative flex h-full flex-col overflow-hidden rounded-xl border border-warm-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+    <div
+      className={cn(
+        'relative flex h-full flex-col overflow-hidden rounded-xl border bg-white shadow-sm transition-all',
+        isSelectable && !isClosed && 'cursor-pointer',
+        isSelected
+          ? 'border-navy ring-2 ring-navy/20 shadow-md'
+          : 'border-warm-gray-200 hover:shadow-md',
+        isClosed && isSelectable && 'opacity-60',
+      )}
+      onClick={() => {
+        if (isSelectable && !isClosed && selectAction) {
+          selectAction(service)
+        }
+      }}
+    >
       {/* Status colour bar */}
       <div className={cn('absolute left-0 right-0 top-0 h-0.75', config.barClass)} />
 
+      {/* Selected checkmark */}
+      {isSelectable && isSelected && (
+        <div className="absolute right-3 top-3.5 flex h-5 w-5 items-center justify-center rounded-full bg-navy text-white">
+          <svg
+            className="h-3 w-3"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={3}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+      )}
+
       <div className="flex flex-1 flex-col p-6 pt-7">
         {/* Title + status badge */}
-        <div className="mb-3 flex items-start justify-between gap-3">
+        <div className={cn('mb-3 flex items-start gap-3', isSelected ? 'pr-7' : '')}>
           <h3 className="font-heading text-xl leading-snug text-navy">{service.title}</h3>
-          {showStatusBadge && (
+          {showStatusBadge && !isSelected && (
             <span
               className={cn(
-                'shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
+                'ml-auto shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
+                config.badgeClass,
+              )}
+            >
+              {config.label}
+            </span>
+          )}
+          {showStatusBadge && isSelected && (
+            <span
+              className={cn(
+                'ml-auto shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
                 config.badgeClass,
               )}
             >
@@ -112,27 +155,30 @@ function ServiceCard({
           </div>
         )}
 
-        {/* CTA — pushed to bottom */}
+        {/* CTA — only shown when NOT in selectable mode (i.e. standalone grid on services page) */}
         {isSelectable && (
           <div className="mt-auto pt-2">
-            {status === 'closed' ? (
+            {isClosed ? (
               <span className="flex w-full cursor-not-allowed select-none items-center justify-center rounded-lg bg-warm-gray-100 px-4 py-2.5 text-sm font-medium text-warm-gray-400">
                 Currently Closed
               </span>
-            ) : status === 'limited' ? (
-              <button
-                onClick={() => service && selectAction && selectAction(service)}
-                className="cursor-pointer flex w-full items-center justify-center rounded-lg border border-amber bg-amber-light px-4 py-2.5 text-sm font-medium text-amber-dark transition-colors hover:bg-amber hover:text-white"
-              >
-                {`Select (Limited availability)`}
-              </button>
             ) : (
-              <button
-                onClick={() => service && selectAction && selectAction(service)}
-                className="cursor-pointer flex w-full items-center justify-center rounded-lg bg-navy px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-mid"
+              <span
+                className={cn(
+                  'flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium transition-colors',
+                  isSelected
+                    ? 'bg-navy/10 text-navy font-semibold'
+                    : status === 'limited'
+                      ? 'border border-amber bg-amber-light text-amber-dark hover:bg-amber hover:text-white'
+                      : 'bg-navy text-white hover:bg-navy-mid',
+                )}
               >
-                {`Select Service`}
-              </button>
+                {isSelected
+                  ? 'Selected — click to remove'
+                  : status === 'limited'
+                    ? 'Select (Limited availability)'
+                    : 'Select Service'}
+              </span>
             )}
           </div>
         )}
@@ -151,6 +197,7 @@ export function ServiceGridClient({
   className,
   isSelectable,
   selectAction,
+  selectedSlugs,
 }: ServiceGridClientProps) {
   const [activeFilter, setActiveFilter] = useState<FilterOption>('all')
 
@@ -224,6 +271,7 @@ export function ServiceGridClient({
                 showDeliverables={showDeliverables || false}
                 showStatusBadge={showStatusBadge || false}
                 isSelectable={isSelectable || false}
+                isSelected={selectedSlugs?.has(service.slug) ?? false}
                 selectAction={selectAction}
               />
             </motion.div>
