@@ -38,6 +38,16 @@ export const ServiceGridBlock: Block = {
       },
     },
     {
+      name: 'isSelectable',
+      type: 'checkbox',
+      label: 'Enable Service Selection',
+      defaultValue: false,
+      admin: {
+        description:
+          'Display a call-to-action button on each service card, to perform select service action',
+      },
+    },
+    {
       name: 'selectedServices',
       label: 'Services to Display',
       type: 'relationship',
@@ -56,16 +66,6 @@ export const ServiceGridBlock: Block = {
       defaultValue: true,
       admin: {
         description: 'Display deliverable tags on each service card.',
-      },
-    },
-    {
-      name: 'requestUrl',
-      type: 'text',
-      label: 'CTA Destination URL',
-      defaultValue: '/request-support',
-      admin: {
-        description:
-          'Base path for "Request" buttons. Each card appends ?service=<slug> automatically (e.g. /request-support).',
       },
     },
   ],

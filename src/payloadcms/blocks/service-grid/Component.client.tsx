@@ -14,13 +14,15 @@ type FilterOption = 'all' | 'open' | 'limited' | 'closed'
 type ServiceGridClientProps = ServiceGridBlockProps & {
   services: Service[]
   className?: string
+  selectAction?: (service: Service) => void
 }
 
 type ServiceCardProps = {
   service: Service
   showDeliverables: boolean
-  requestUrl: string
   showStatusBadge?: boolean
+  isSelectable?: boolean
+  selectAction?: (service: Service) => void
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -54,7 +56,13 @@ const FILTER_LABELS: Record<FilterOption, string> = {
 
 // ─── Service Card ─────────────────────────────────────────────────────────────
 
-function ServiceCard({ service, showDeliverables, requestUrl, showStatusBadge }: ServiceCardProps) {
+function ServiceCard({
+  service,
+  showDeliverables,
+  showStatusBadge,
+  isSelectable,
+  selectAction,
+}: ServiceCardProps) {
   const status = (service.status ?? 'closed') as keyof typeof STATUS_CONFIG
   const config = STATUS_CONFIG[status] ?? STATUS_CONFIG.closed
   const deliverables = service.deliverables ?? []
@@ -105,27 +113,29 @@ function ServiceCard({ service, showDeliverables, requestUrl, showStatusBadge }:
         )}
 
         {/* CTA — pushed to bottom */}
-        <div className="mt-auto pt-2">
-          {status === 'closed' ? (
-            <span className="flex w-full cursor-not-allowed select-none items-center justify-center rounded-lg bg-warm-gray-100 px-4 py-2.5 text-sm font-medium text-warm-gray-400">
-              Currently Closed
-            </span>
-          ) : status === 'limited' ? (
-            <Link
-              href={`${requestUrl}?service=${service.slug}`}
-              className="flex w-full items-center justify-center rounded-lg border border-amber bg-amber-light px-4 py-2.5 text-sm font-medium text-amber-dark transition-colors hover:bg-amber hover:text-white"
-            >
-              {`Select (Limited availability)`}
-            </Link>
-          ) : (
-            <Link
-              href={`${requestUrl}?service=${service.slug}`}
-              className="flex w-full items-center justify-center rounded-lg bg-navy px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-mid"
-            >
-              {`Select Service`}
-            </Link>
-          )}
-        </div>
+        {isSelectable && (
+          <div className="mt-auto pt-2">
+            {status === 'closed' ? (
+              <span className="flex w-full cursor-not-allowed select-none items-center justify-center rounded-lg bg-warm-gray-100 px-4 py-2.5 text-sm font-medium text-warm-gray-400">
+                Currently Closed
+              </span>
+            ) : status === 'limited' ? (
+              <button
+                onClick={() => service && selectAction && selectAction(service)}
+                className="cursor-pointer flex w-full items-center justify-center rounded-lg border border-amber bg-amber-light px-4 py-2.5 text-sm font-medium text-amber-dark transition-colors hover:bg-amber hover:text-white"
+              >
+                {`Select (Limited availability)`}
+              </button>
+            ) : (
+              <button
+                onClick={() => service && selectAction && selectAction(service)}
+                className="cursor-pointer flex w-full items-center justify-center rounded-lg bg-navy px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-mid"
+              >
+                {`Select Service`}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -136,10 +146,11 @@ function ServiceCard({ service, showDeliverables, requestUrl, showStatusBadge }:
 export function ServiceGridClient({
   services,
   showDeliverables,
-  requestUrl,
   showFilterOptions,
   showStatusBadge,
   className,
+  isSelectable,
+  selectAction,
 }: ServiceGridClientProps) {
   const [activeFilter, setActiveFilter] = useState<FilterOption>('all')
 
@@ -210,9 +221,10 @@ export function ServiceGridClient({
             >
               <ServiceCard
                 service={service}
-                showDeliverables={showDeliverables!}
-                requestUrl={requestUrl!}
+                showDeliverables={showDeliverables || false}
                 showStatusBadge={showStatusBadge || false}
+                isSelectable={isSelectable || false}
+                selectAction={selectAction}
               />
             </motion.div>
           ))}
