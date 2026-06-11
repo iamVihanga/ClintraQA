@@ -4,6 +4,7 @@ import { anyone as anyoneAccess } from '@/payloadcms/access/anyone'
 import adminAccess from '@/payloadcms/access/admin'
 import { defaultLexicalEditor } from '@/payloadcms/fields/default-lexical-editor'
 import { AdminGroups } from '@/payloadcms/utils/admin-groups'
+import { revalidateService, revalidateServiceDelete } from './hooks/revalidateService'
 
 export const Services: CollectionConfig = {
   slug: 'services',
@@ -17,6 +18,10 @@ export const Services: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'visible'],
     group: AdminGroups.ContentManagement,
+  },
+  hooks: {
+    afterChange: [revalidateService],
+    afterDelete: [revalidateServiceDelete],
   },
   fields: [
     // Root-level fields — required here for slugField watcher to resolve correctly

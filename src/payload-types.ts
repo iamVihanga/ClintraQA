@@ -648,6 +648,10 @@ export interface ServiceGridBlock {
    */
   showStatusBadge?: boolean | null;
   /**
+   * Display a call-to-action button on each service card, to perform select service action
+   */
+  isSelectable?: boolean | null;
+  /**
    * Choose which services appear in this grid.
    */
   selectedServices?: (number | Service)[] | null;
@@ -655,10 +659,6 @@ export interface ServiceGridBlock {
    * Display deliverable tags on each service card.
    */
   showDeliverables?: boolean | null;
-  /**
-   * Base path for "Request" buttons. Each card appends ?service=<slug> automatically (e.g. /request-support).
-   */
-  requestUrl?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'service-grid';
@@ -1499,9 +1499,9 @@ export interface ServiceGridBlockSelect<T extends boolean = true> {
   showAll?: T;
   showFilterOptions?: T;
   showStatusBadge?: T;
+  isSelectable?: T;
   selectedServices?: T;
   showDeliverables?: T;
-  requestUrl?: T;
   id?: T;
   blockName?: T;
 }

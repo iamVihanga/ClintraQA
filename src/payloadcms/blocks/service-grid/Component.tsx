@@ -6,6 +6,7 @@ import { ServiceGridClient } from './Component.client'
 
 type ServiceGridBlockProps = _ServiceGridBlockProps & {
   className?: string
+  selectAction?: (service: Service) => void
 }
 
 async function getAllVisibleServices(): Promise<Service[]> {
@@ -28,8 +29,8 @@ export async function ServiceGrid({
   showAll,
   selectedServices,
   showDeliverables,
-  requestUrl,
   className,
+  selectAction,
   ...props
 }: ServiceGridBlockProps) {
   let services: Service[]
@@ -45,8 +46,9 @@ export async function ServiceGrid({
   return (
     <ServiceGridClient
       services={services}
-      requestUrl={requestUrl ?? '/request-support'}
       className={className}
+      selectAction={selectAction}
+      showDeliverables={showDeliverables || false}
       {...props}
     />
   )
