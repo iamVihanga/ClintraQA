@@ -4,17 +4,15 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'motion/react'
 
-import type { Service } from '@/payload-types'
+import type { Service, ServiceGridBlock as ServiceGridBlockProps } from '@/payload-types'
 import { cn } from '@/lib/utils'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type FilterOption = 'all' | 'open' | 'limited' | 'closed'
 
-type ServiceGridClientProps = {
+type ServiceGridClientProps = ServiceGridBlockProps & {
   services: Service[]
-  showDeliverables: boolean
-  requestUrl: string
   className?: string
 }
 
@@ -22,6 +20,7 @@ type ServiceCardProps = {
   service: Service
   showDeliverables: boolean
   requestUrl: string
+  showStatusBadge?: boolean
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -55,7 +54,7 @@ const FILTER_LABELS: Record<FilterOption, string> = {
 
 // ─── Service Card ─────────────────────────────────────────────────────────────
 
-function ServiceCard({ service, showDeliverables, requestUrl }: ServiceCardProps) {
+function ServiceCard({ service, showDeliverables, requestUrl, showStatusBadge }: ServiceCardProps) {
   const status = (service.status ?? 'closed') as keyof typeof STATUS_CONFIG
   const config = STATUS_CONFIG[status] ?? STATUS_CONFIG.closed
   const deliverables = service.deliverables ?? []
@@ -69,14 +68,16 @@ function ServiceCard({ service, showDeliverables, requestUrl }: ServiceCardProps
         {/* Title + status badge */}
         <div className="mb-3 flex items-start justify-between gap-3">
           <h3 className="font-heading text-xl leading-snug text-navy">{service.title}</h3>
-          <span
-            className={cn(
-              'shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
-              config.badgeClass,
-            )}
-          >
-            {config.label}
-          </span>
+          {showStatusBadge && (
+            <span
+              className={cn(
+                'shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
+                config.badgeClass,
+              )}
+            >
+              {config.label}
+            </span>
+          )}
         </div>
 
         {/* Short description */}
@@ -114,14 +115,14 @@ function ServiceCard({ service, showDeliverables, requestUrl }: ServiceCardProps
               href={`${requestUrl}?service=${service.slug}`}
               className="flex w-full items-center justify-center rounded-lg border border-amber bg-amber-light px-4 py-2.5 text-sm font-medium text-amber-dark transition-colors hover:bg-amber hover:text-white"
             >
-              Request — Limited availability
+              {`Select (Limited availability)`}
             </Link>
           ) : (
             <Link
               href={`${requestUrl}?service=${service.slug}`}
               className="flex w-full items-center justify-center rounded-lg bg-navy px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-navy-mid"
             >
-              Request Support
+              {`Select Service`}
             </Link>
           )}
         </div>
@@ -136,6 +137,8 @@ export function ServiceGridClient({
   services,
   showDeliverables,
   requestUrl,
+  showFilterOptions,
+  showStatusBadge,
   className,
 }: ServiceGridClientProps) {
   const [activeFilter, setActiveFilter] = useState<FilterOption>('all')
@@ -151,41 +154,46 @@ export function ServiceGridClient({
   }
 
   return (
-    <div className={cn('mx-auto pb-14 pt-2', className)} style={{ maxWidth: '1160px' }}>
+    <div
+      className={cn('mx-auto pb-14 pt-2 px-6 sm:px-0', className)}
+      style={{ maxWidth: '1160px' }}
+    >
       {/* Filter pills */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease }}
-        className="mb-8 flex flex-wrap items-center gap-2"
-      >
-        {(['all', 'open', 'limited', 'closed'] as const).map((f) => {
-          const isActive = activeFilter === f
-          return (
-            <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={cn(
-                'inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
-                isActive
-                  ? 'bg-navy text-white'
-                  : 'bg-warm-gray-100 text-navy-main hover:bg-warm-gray-200',
-              )}
-            >
-              {FILTER_LABELS[f]}
-              <span
+      {showFilterOptions && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease }}
+          className="mb-8 flex flex-wrap items-center gap-2"
+        >
+          {(['all', 'open', 'limited', 'closed'] as const).map((f) => {
+            const isActive = activeFilter === f
+            return (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
                 className={cn(
-                  'rounded-full px-1.5 py-0.5 text-xs font-semibold',
-                  isActive ? 'bg-white/20 text-white' : 'bg-warm-gray-200 text-warm-gray-600',
+                  'inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
+                  isActive
+                    ? 'bg-navy text-white'
+                    : 'bg-warm-gray-100 text-navy-main hover:bg-warm-gray-200',
                 )}
               >
-                {counts[f]}
-              </span>
-            </button>
-          )
-        })}
-      </motion.div>
+                {FILTER_LABELS[f]}
+                <span
+                  className={cn(
+                    'rounded-full px-1.5 py-0.5 text-xs font-semibold',
+                    isActive ? 'bg-white/20 text-white' : 'bg-warm-gray-200 text-warm-gray-600',
+                  )}
+                >
+                  {counts[f]}
+                </span>
+              </button>
+            )
+          })}
+        </motion.div>
+      )}
 
       {/* Card grid */}
       <motion.div layout className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -202,8 +210,9 @@ export function ServiceGridClient({
             >
               <ServiceCard
                 service={service}
-                showDeliverables={showDeliverables}
-                requestUrl={requestUrl}
+                showDeliverables={showDeliverables!}
+                requestUrl={requestUrl!}
+                showStatusBadge={showStatusBadge || false}
               />
             </motion.div>
           ))}

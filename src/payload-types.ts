@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     pages: Page;
     services: Service;
+    resources: Resource;
+    'resource-categories': ResourceCategory;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -91,6 +93,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    'resource-categories': ResourceCategoriesSelect<false> | ResourceCategoriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -112,6 +116,7 @@ export interface Config {
     footer: Footer;
     'contact-info': ContactInfo;
     approachSteps: ApproachStep;
+    faq: Faq;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
@@ -120,6 +125,7 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
     approachSteps: ApproachStepsSelect<false> | ApproachStepsSelect<true>;
+    faq: FaqSelect<false> | FaqSelect<true>;
   };
   locale: null;
   widgets: {
@@ -320,6 +326,8 @@ export interface Page {
     | ConsultantProfileBlock
     | GridLayoutBlock
     | FormBlock
+    | ResourcesGridBlock
+    | FaqBlock
   )[];
   meta?: {
     title?: string | null;
@@ -376,10 +384,15 @@ export interface HeroBlock {
       link?: {
         type?: ('reference' | 'custom') | null;
         newTab?: boolean | null;
-        reference?: {
-          relationTo: 'pages';
-          value: number | Page;
-        } | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: number | Page;
+            } | null)
+          | ({
+              relationTo: 'resources';
+              value: number | Resource;
+            } | null);
         url?: string | null;
         label: string;
       };
@@ -389,10 +402,15 @@ export interface HeroBlock {
       link?: {
         type?: ('reference' | 'custom') | null;
         newTab?: boolean | null;
-        reference?: {
-          relationTo: 'pages';
-          value: number | Page;
-        } | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: number | Page;
+            } | null)
+          | ({
+              relationTo: 'resources';
+              value: number | Resource;
+            } | null);
         url?: string | null;
         label: string;
       };
@@ -416,6 +434,72 @@ export interface HeroBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
+  id: number;
+  title: string;
+  thumbnail?: (number | null) | Media;
+  shortDescription?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedResources?: (number | Resource)[] | null;
+  'resource-category'?: (number | null) | ResourceCategory;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resource-categories".
+ */
+export interface ResourceCategory {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -525,10 +609,15 @@ export interface SectionHeaderBlock {
     link?: {
       type?: ('reference' | 'custom') | null;
       newTab?: boolean | null;
-      reference?: {
-        relationTo: 'pages';
-        value: number | Page;
-      } | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'resources';
+            value: number | Resource;
+          } | null);
       url?: string | null;
       label: string;
       /**
@@ -550,6 +639,14 @@ export interface ServiceGridBlock {
    * When enabled, all visible services are displayed. Uncheck to handpick specific services.
    */
   showAll?: boolean | null;
+  /**
+   * Display status filter buttons (All, Open, Limited, Closed) above the grid.
+   */
+  showFilterOptions?: boolean | null;
+  /**
+   * Display a badge indicating the status of each service card in grid (All, Open, Limited, Closed).
+   */
+  showStatusBadge?: boolean | null;
   /**
    * Choose which services appear in this grid.
    */
@@ -767,7 +864,12 @@ export interface Form {
     [k: string]: unknown;
   } | null;
   redirect?: {
-    url: string;
+    type?: ('reference' | 'custom') | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
   };
   /**
    * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
@@ -843,6 +945,43 @@ export interface ConsultantProfileBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'consultant-profile';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResourcesGridBlock".
+ */
+export interface ResourcesGridBlock {
+  /**
+   * When enabled, all visible resources are displayed. Uncheck to handpick specific resources.
+   */
+  showAll?: boolean | null;
+  /**
+   * Choose which resources appear in this grid.
+   */
+  selectedResources?: (number | Resource)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'resources-grid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock".
+ */
+export interface FaqBlock {
+  /**
+   * Small eyebrow label above the heading (e.g. "FAQ")
+   */
+  label?: string | null;
+  heading?: string | null;
+  subtitle?: string | null;
+  theme?: ('light' | 'dark') | null;
+  /**
+   * Optional. Only show FAQ items matching this category. Leave blank to show all.
+   */
+  filterCategory?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1013,6 +1152,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'services';
         value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'resources';
+        value: number | Resource;
+      } | null)
+    | ({
+        relationTo: 'resource-categories';
+        value: number | ResourceCategory;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1210,6 +1357,8 @@ export interface PagesSelect<T extends boolean = true> {
         'consultant-profile'?: T | ConsultantProfileBlockSelect<T>;
         'grid-layout'?: T | GridLayoutBlockSelect<T>;
         'form-block'?: T | FormBlockSelect<T>;
+        'resources-grid'?: T | ResourcesGridBlockSelect<T>;
+        'faq-block'?: T | FaqBlockSelect<T>;
       };
   meta?:
     | T
@@ -1348,6 +1497,8 @@ export interface SectionHeaderBlockSelect<T extends boolean = true> {
  */
 export interface ServiceGridBlockSelect<T extends boolean = true> {
   showAll?: T;
+  showFilterOptions?: T;
+  showStatusBadge?: T;
   selectedServices?: T;
   showDeliverables?: T;
   requestUrl?: T;
@@ -1425,6 +1576,29 @@ export interface ConsultantProfileBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResourcesGridBlock_select".
+ */
+export interface ResourcesGridBlockSelect<T extends boolean = true> {
+  showAll?: T;
+  selectedResources?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock_select".
+ */
+export interface FaqBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  subtitle?: T;
+  theme?: T;
+  filterCategory?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services_select".
  */
 export interface ServicesSelect<T extends boolean = true> {
@@ -1442,6 +1616,49 @@ export interface ServicesSelect<T extends boolean = true> {
   monthlyCapacity?: T;
   limitedMessage?: T;
   closedMessage?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources_select".
+ */
+export interface ResourcesSelect<T extends boolean = true> {
+  title?: T;
+  thumbnail?: T;
+  shortDescription?: T;
+  content?: T;
+  relatedResources?: T;
+  'resource-category'?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  authors?: T;
+  populatedAuthors?:
+    | T
+    | {
+        id?: T;
+        name?: T;
+      };
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resource-categories_select".
+ */
+export interface ResourceCategoriesSelect<T extends boolean = true> {
+  title?: T;
   generateSlug?: T;
   slug?: T;
   updatedAt?: T;
@@ -1579,6 +1796,8 @@ export interface FormsSelect<T extends boolean = true> {
   redirect?:
     | T
     | {
+        type?: T;
+        reference?: T;
         url?: T;
       };
   emails?:
@@ -1826,10 +2045,15 @@ export interface Header {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'resources';
+                value: number | Resource;
+              } | null);
           url?: string | null;
           label: string;
         };
@@ -1840,10 +2064,15 @@ export interface Header {
     link: {
       type?: ('reference' | 'custom') | null;
       newTab?: boolean | null;
-      reference?: {
-        relationTo: 'pages';
-        value: number | Page;
-      } | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'resources';
+            value: number | Resource;
+          } | null);
       url?: string | null;
       label: string;
     };
@@ -1864,10 +2093,15 @@ export interface Footer {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'resources';
+                value: number | Resource;
+              } | null);
           url?: string | null;
           label: string;
         };
@@ -1879,10 +2113,15 @@ export interface Footer {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'resources';
+                value: number | Resource;
+              } | null);
           url?: string | null;
           label: string;
         };
@@ -1921,10 +2160,15 @@ export interface ContactInfo {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'resources';
+                value: number | Resource;
+              } | null);
           url?: string | null;
           label: string;
         };
@@ -1950,6 +2194,26 @@ export interface ApproachStep {
         number?: string | null;
         title?: string | null;
         description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
+  items?:
+    | {
+        question: string;
+        answer: string;
+        /**
+         * Optional. Group items by category for selective display in blocks.
+         */
+        category?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -2142,6 +2406,23 @@ export interface ApproachStepsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        category?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -2158,10 +2439,15 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'resources';
+          value: number | Resource;
+        } | null);
     global?: string | null;
     user?: (number | null) | User;
   };
@@ -2175,10 +2461,15 @@ export interface RichLinkBlock {
   link: {
     type?: ('reference' | 'custom') | null;
     newTab?: boolean | null;
-    reference?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'resources';
+          value: number | Resource;
+        } | null);
     url?: string | null;
     label: string;
   };
@@ -2195,6 +2486,16 @@ export interface SocialLinksBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'social-links';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock".
+ */
+export interface MediaBlock {
+  media: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'mediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -47,10 +47,10 @@ export const HeroBlock: React.FC<Props> = ({
   }, [animativeWords])
 
   return (
-    <section className={cn('relative overflow-hidden bg-navy px-6 py-25', className)}>
-      {/* Decorative subtle grid — slow fade in */}
+    <section className={cn('relative overflow-hidden bg-navy px-6 py-16 md:py-25', className)}>
+      {/* Decorative subtle grid — slow fade in, hidden on mobile */}
       <motion.div
-        className="pointer-events-none absolute inset-y-0 right-0 w-1/2"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 lg:block"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.06 }}
         transition={{ duration: 2, delay: 0.6, ease: 'easeOut' }}
@@ -75,11 +75,11 @@ export const HeroBlock: React.FC<Props> = ({
       </motion.div>
 
       <div
-        className="relative mx-auto grid items-center gap-16"
-        style={{
-          maxWidth: '1160px',
-          gridTemplateColumns: hasImage ? '1fr 480px' : '1fr',
-        }}
+        className={cn(
+          'relative mx-auto grid items-start gap-10 lg:gap-16',
+          hasImage ? 'grid-cols-1 lg:grid-cols-[1fr_480px] lg:items-center' : 'grid-cols-1',
+        )}
+        style={{ maxWidth: '1160px' }}
       >
         {/* ── Left: content ── */}
         <div>
@@ -98,7 +98,7 @@ export const HeroBlock: React.FC<Props> = ({
 
           {/* Headline — each line is an animated block span */}
           {(beforeText || !!animativeWords?.length || afterText) && (
-            <h1 className="mb-6 font-heading text-[52px] leading-[1.1] tracking-[-0.5px] text-white">
+            <h1 className="mb-6 font-heading text-[36px] leading-[1.1] tracking-[-0.5px] text-white sm:text-[44px] lg:text-[52px]">
               {beforeText && (
                 <motion.span {...fadeUp(0.15)} className="block">
                   {beforeText}
@@ -133,14 +133,17 @@ export const HeroBlock: React.FC<Props> = ({
                 data={subtitle}
                 enableGutter={false}
                 enableProse={false}
-                className="mb-10 max-w-130 text-[17px] leading-[1.75] text-white/70"
+                className="mb-10 max-w-full text-[17px] leading-[1.75] text-white/70 lg:max-w-130"
               />
             </motion.div>
           )}
 
           {/* CTA buttons */}
           {(primaryCta?.enabled || secondaryCta?.enabled) && (
-            <motion.div {...fadeUp(0.55)} className="flex flex-wrap items-center gap-3">
+            <motion.div
+              {...fadeUp(0.55)}
+              className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:flex-wrap"
+            >
               {primaryCta?.enabled && primaryCta.link?.label && (
                 <CMSLink
                   {...primaryCta.link}
@@ -160,7 +163,10 @@ export const HeroBlock: React.FC<Props> = ({
 
           {/* Credibility stats */}
           {credibilityStats?.enabled && !!credibilityStats.stats?.length && (
-            <motion.div {...fadeUp(0.65)} className="mt-14 flex border-t border-white/10 pt-10">
+            <motion.div
+              {...fadeUp(0.65)}
+              className="mt-10 flex flex-wrap gap-y-6 border-t border-white/10 pt-8 md:mt-14 md:pt-10"
+            >
               {credibilityStats.stats.map((stat, i) => (
                 <motion.div key={stat.id ?? i} {...fadeUp(0.7 + i * 0.08)} className="flex-1 pr-6">
                   <div className="font-heading text-[32px] leading-none text-white">
@@ -180,7 +186,7 @@ export const HeroBlock: React.FC<Props> = ({
             initial={{ opacity: 0, x: 48, scale: 0.96 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.2, ease }}
-            className="relative h-130 overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/10"
+            className="relative h-64 overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/10 sm:h-80 lg:h-130"
           >
             <Media resource={heroImage} fill htmlElement={null} imgClassName="object-cover" />
           </motion.div>

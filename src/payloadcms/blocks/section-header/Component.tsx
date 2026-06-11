@@ -18,7 +18,10 @@ export function SectionHeader({ className, isDark, ...props }: Props) {
   const hasCTA = cta?.enabled && cta.link?.label
 
   return (
-    <div className={cn('mx-auto py-14 bg-transparent', className)} style={{ maxWidth: '1160px' }}>
+    <div
+      className={cn('mx-auto py-14 bg-transparent px-6 sm:px-0', className)}
+      style={{ maxWidth: '1160px' }}
+    >
       <div className={cn('flex flex-wrap items-end justify-between gap-x-12 gap-y-6')}>
         {/* Left: label / title / subtitle */}
         <div className="min-w-0">
@@ -67,6 +70,27 @@ export function SectionHeader({ className, isDark, ...props }: Props) {
             >
               {subtitle}
             </motion.p>
+          )}
+
+          {/* Mobile CTA — below subtitle, hidden from md upward */}
+          {hasCTA && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: 0.2, ease }}
+              className="mt-5 md:hidden"
+            >
+              <CMSLink
+                type={cta.link!.type}
+                reference={cta.link!.reference as CMSLinkType['reference']}
+                url={cta.link!.url}
+                label={cta.link!.label}
+                newTab={cta.link!.newTab}
+                appearance="default"
+                className="h-10 px-6 text-sm"
+              />
+            </motion.div>
           )}
         </div>
 

@@ -13,6 +13,8 @@ import { ConsultantProfileBlock } from './consultant-profile/Component'
 import { GridLayout } from './layout-blocks/grid/Component'
 import { CredibilityStripe } from './credibility-strip/Component'
 import { FormBlockComponent } from './form/Component'
+import { ResourcesGrid } from './resources-grid/Component'
+import { FaqBlockComponent } from './faq/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -25,6 +27,8 @@ const blockComponents = {
   'grid-layout': GridLayout,
   'credibility-stripe': CredibilityStripe,
   'form-block': FormBlockComponent,
+  'resources-grid': ResourcesGrid,
+  'faq-block': FaqBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

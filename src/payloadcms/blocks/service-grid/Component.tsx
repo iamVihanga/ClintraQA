@@ -1,15 +1,10 @@
-import React from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-import type { Service } from '@/payload-types'
+import type { Service, ServiceGridBlock as _ServiceGridBlockProps } from '@/payload-types'
 import { ServiceGridClient } from './Component.client'
 
-type ServiceGridBlockProps = {
-  showAll?: boolean | null
-  selectedServices?: (number | Service)[] | null
-  showDeliverables?: boolean | null
-  requestUrl?: string | null
+type ServiceGridBlockProps = _ServiceGridBlockProps & {
   className?: string
 }
 
@@ -35,6 +30,7 @@ export async function ServiceGrid({
   showDeliverables,
   requestUrl,
   className,
+  ...props
 }: ServiceGridBlockProps) {
   let services: Service[]
 
@@ -49,9 +45,9 @@ export async function ServiceGrid({
   return (
     <ServiceGridClient
       services={services}
-      showDeliverables={showDeliverables ?? true}
-      requestUrl={requestUrl ?? '/contact'}
+      requestUrl={requestUrl ?? '/request-support'}
       className={className}
+      {...props}
     />
   )
 }

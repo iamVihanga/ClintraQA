@@ -12,7 +12,7 @@ export function GridLayout({ className, ...props }: Props) {
   const { cards } = props
 
   return (
-    <section className={cn('mx-auto', className)} style={{ maxWidth: '1160px' }}>
+    <section className={cn('mx-auto px-6 sm:px-0', className)} style={{ maxWidth: '1160px' }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {cards?.map((card) => (
           <div

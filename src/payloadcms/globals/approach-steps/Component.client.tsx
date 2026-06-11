@@ -21,7 +21,7 @@ export function ApproachStepsClient({ steps, className, theme }: ApproachStepsCl
   if (!steps.length) return null
 
   return (
-    <div className={cn('mx-auto', className)} style={{ maxWidth: '1160px' }}>
+    <div className={cn('mx-auto px-6 sm:px-0', className)} style={{ maxWidth: '1160px' }}>
       {/* 1px gap on bg-white/10 creates the subtle divider lines between cells */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}

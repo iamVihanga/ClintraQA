@@ -30,9 +30,9 @@ export function ConsultantProfileBlock({
   const hasPhoto = photo && typeof photo === 'object'
 
   return (
-    <section className="px-6 py-22">
+    <section className="px-6 py-14 md:py-22">
       <div
-        className="mx-auto grid grid-cols-1 items-start gap-22 lg:grid-cols-2"
+        className="mx-auto grid grid-cols-1 items-start gap-10 lg:gap-22 lg:grid-cols-2"
         style={{ maxWidth: '1160px' }}
       >
         {/* ── Portrait card ── */}

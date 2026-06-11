@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fa6'
 import type { IconType } from 'react-icons'
 
-import type { Page } from '@/payload-types'
+import type { Page, Resource } from '@/payload-types'
 import { cn } from '@/lib/utils'
 import { useContactInfo } from '@/components/providers/ContactInfoContext'
 import { detectPlatform, type Platform } from './detect-platform'
@@ -40,10 +40,10 @@ type Props = {
 type Link = {
   type?: ('reference' | 'custom') | null
   newTab?: boolean | null
-  reference?: {
-    relationTo: 'pages'
-    value: number | Page
-  } | null
+  reference?:
+    | { relationTo: 'pages'; value: number | Page }
+    | { relationTo: 'resources'; value: number | Resource }
+    | null
   url?: string | null
   label: string
 }
